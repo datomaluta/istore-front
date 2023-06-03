@@ -9,15 +9,39 @@ import { useEffect, useState } from "react";
 import BurgerIcon from "../icons/BurgerIcon";
 import useScreenWidth from "../../hooks/useScreenWidth";
 import useFixedHeader from "../../hooks/useFixedHeader";
+import MobileHeaderContent from "./MobileHaderContent";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
   const [inputIsVisible, setInputIsVisible] = useState(true);
+  const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
+  const [mobileHeaderIsVisible, setMobileHeaderIsVisible] = useState(false);
   const { isBottomFixed } = useFixedHeader();
-  // const [isBottomFixed, setIsBottomFixed] = useState(false);
   const { screenWidth } = useScreenWidth();
   const placeholderText = t("search_msg");
   const lngs = ["en", "ka"];
+  const categories = [
+    {
+      name: t("comps"),
+      id: 1,
+      subCategories: [t("laptops"), t("pc"), t("all_in_one")],
+    },
+    {
+      name: t("comp_parts"),
+      id: 2,
+      subCategories: [t("cpu"), t("gpu"), t("motherboard"), t("ram")],
+    },
+    {
+      name: t("comp_peripherals"),
+      id: 3,
+      subCategories: [
+        t("keyboards"),
+        t("mouse"),
+        t("headphones"),
+        t("speakers"),
+      ],
+    },
+  ];
 
   const inputIsVisibleHandler = (): void => {
     setInputIsVisible((currState) => !currState);
@@ -35,8 +59,19 @@ const Header = () => {
     };
   }, [screenWidth]);
 
+  const mobileHeaderVisibilityHandler = () => {
+    setMobileHeaderIsVisible((currState) => !currState);
+  };
+
+  console.log(mobileHeaderIsVisible);
+
   return (
     <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white ">
+      {mobileHeaderIsVisible && (
+        <MobileHeaderContent
+          mobileHeaderVisibilityHandler={mobileHeaderVisibilityHandler}
+        />
+      )}
       <div className="max-w-[75rem] bg-red-40 mx-auto flex items-center justify-between border-b-[0.05rem] pb-2 py-2 px-2">
         <h1 className="text-5xl sm:text-4xl font-bold text-white font-sans">
           istore
@@ -90,25 +125,67 @@ const Header = () => {
       </div>
 
       <div
-        className={`px-2 mx-auto flex justify-between items-center bg-sky-400 transition-all h-[4rem] ${
-          isBottomFixed ? "fixed top-0 left-0 w-full" : ""
+        className={`px-2 mx-auto flex justify-between  items-center bg-sky-400 transition-all h-[4rem]  ${
+          isBottomFixed ? "fixed top-0 left-0 w-full " : ""
         }`}
         id="myHeader"
       >
-        <div className="flex justify-between md:w-full w-[75rem] mx-auto  bg-sky-400">
+        <div className="flex justify-between md:w-full w-[75rem] mx-auto relative">
           <nav
             className={`flex gap-4  md:hidden ${
               i18n.resolvedLanguage === "ka" ? "font-bpg" : "font-sans"
             }`}
           >
-            <Link to="/">{t("comps")}</Link>
-            <Link to="/">{t("comp_parts")}</Link>
-            <Link to="/">{t("comp_peripherals")}</Link>
-            <Link to="/">{t("monitor")}</Link>
-            <Link to="/">{t("about_us")}</Link>
-            <Link to="/">{t("contact")}</Link>
+            {categories.map((category) => (
+              <Link
+                key={category.id}
+                onMouseEnter={() => setHoveredCategory(category.id)}
+                onMouseLeave={() => setHoveredCategory(null)}
+                to="/"
+              >
+                {category.name}
+              </Link>
+            ))}
+            <Link
+              className="hover:text-neutral-200 border-b border-transparent hover:border-white"
+              to="/"
+            >
+              {t("monitor")}
+            </Link>
+            <Link
+              className="hover:text-neutral-200 border-b border-transparent hover:border-white"
+              to="/"
+            >
+              {t("about_us")}
+            </Link>
+
+            {hoveredCategory && (
+              <div
+                className=" bg-sky-400 text-white overflow-hidden
+              rounded-b w-[21rem] lg:w-[17rem] h-72 absolute  bottom-0  translate-y-full left-[0]
+               animate-smoothHeightGrow py-4 px-2 pt-6 flex flex-col"
+                onMouseEnter={() => setHoveredCategory(hoveredCategory)}
+                onMouseLeave={() => setHoveredCategory(null)}
+              >
+                {categories
+                  .find((category) => category.id === hoveredCategory)
+                  ?.subCategories?.map((subCat) => (
+                    <Link
+                      key={subCat}
+                      to="/"
+                      className="mb-2 border-b border-white py-2 hover:text-neutral-200 "
+                    >
+                      {subCat}
+                    </Link>
+                  ))}
+              </div>
+            )}
           </nav>
-          <button className="md:block hidden">
+
+          <button
+            className="md:block hidden"
+            onClick={mobileHeaderVisibilityHandler}
+          >
             <BurgerIcon />
           </button>
           <div className="flex items-center">
