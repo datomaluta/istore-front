@@ -1,0 +1,36 @@
+/* MySlider.css */
+
+.slick-dots {
+  /* Customize dot container styles */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+}
+
+.slick-dots li {
+  /* Customize individual dot styles */
+  margin: 0 5px;
+}
+
+.slick-dots li button {
+  /* Customize dot button styles */
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  opacity: 0.5;
+  border: none;
+  transition: opacity 0.3s;
+}
+
+.slick-dots li.slick-active button {
+  /* Customize active dot styles */
+  opacity: 1;
+}
+
+.slick-dots li button:before {
+  /* Remove default dot content */
+  content: none;
+}
