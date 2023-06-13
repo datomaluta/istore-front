@@ -7,6 +7,7 @@ import sliderimg3 from "../../../assets/images/peri.png";
 import sliderimg4 from "../../../assets/images/peri2.png";
 import "./BigSlider.css";
 import BigSliderSlide from "./BigSliderSlide";
+
 const BigSlider = () => {
   const settings = {
     dots: true,
@@ -15,7 +16,7 @@ const BigSlider = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    // autoplay: true,
     autoplaySpeed: 2000,
   };
   return (
