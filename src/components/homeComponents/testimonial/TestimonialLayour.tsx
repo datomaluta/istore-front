@@ -7,8 +7,8 @@ import TestimonialCard from "./TestimonialCard";
 const TestimonialLayout = () => {
   const { t } = useTranslation();
   return (
-    <div className="mt-20 flex flex-col items-center mb-56">
-      <h1 className="text-lg  mb-8 max-w-max border-b-2 border-primary">
+    <div className="mt-20 flex flex-col items-center mb-56 sm:mb-80">
+      <h1 className="text-lg  mb-8 max-w-max border-b-2 border-primary pb-1">
         {t("testimonial")}
       </h1>
       <div className="flex gap-8 md:grid grid-cols-2 md:gap-y-12 sm:grid-cols-1">

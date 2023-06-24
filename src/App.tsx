@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import { useTranslation } from "react-i18next";
+import Computers from "./pages/Computers";
+import Laptops from "./pages/Laptops";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -14,6 +16,10 @@ function App() {
       <div className="max-w-[75rem] mx-auto bg-white dark:bg-neutral-900 min-h-screen transition-all">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/computers" element={<Computers />} />
+          <Route path="/parts" element={<Computers />} />
+          <Route path="/peripherals" element={<Computers />} />
+          <Route path="/computers/laptops" element={<Laptops />} />
         </Routes>
       </div>
     </div>

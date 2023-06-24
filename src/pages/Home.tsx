@@ -15,7 +15,7 @@ const Home = () => {
         <BigSlider />
         <Features />
         <div className="mt-20 flex justify-center flex-col items-center">
-          <h1 className="text-lg text-center mb-8 max-w-max border-b-2 border-primary">
+          <h1 className="text-lg text-center mb-8 max-w-max border-b-2 border-primary pb-1">
             დღის შეთავაზებები
           </h1>
           <DiscountSlider />

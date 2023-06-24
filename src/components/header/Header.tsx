@@ -4,12 +4,13 @@ import SearchIcon from "../icons/SearchIcon";
 import Theme from "../sharedComponents/Theme";
 import geoFlag from "../../assets/images/geo.png";
 import usaFlag from "../../assets/images/usa.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BurgerIcon from "../icons/BurgerIcon";
 import useScreenWidth from "../../hooks/useScreenWidth";
 import useFixedHeader from "../../hooks/useFixedHeader";
 import MobileHeaderContent from "./MobileHaderContent";
+import { categories } from "../../data/Categories";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
@@ -20,28 +21,7 @@ const Header = () => {
   const { screenWidth } = useScreenWidth();
   const placeholderText = t("search_msg");
   const lngs = ["en", "ka"];
-  const categories = [
-    {
-      name: t("comps"),
-      id: 1,
-      subCategories: [t("laptops"), t("pc"), t("all_in_one")],
-    },
-    {
-      name: t("comp_parts"),
-      id: 2,
-      subCategories: [t("cpu"), t("gpu"), t("motherboard"), t("ram")],
-    },
-    {
-      name: t("comp_peripherals"),
-      id: 3,
-      subCategories: [
-        t("keyboards"),
-        t("mouse"),
-        t("headphones"),
-        t("speakers"),
-      ],
-    },
-  ];
+  const location = useLocation();
 
   const inputIsVisibleHandler = (): void => {
     setInputIsVisible((currState) => !currState);
@@ -139,9 +119,14 @@ const Header = () => {
                 key={category.id}
                 onMouseEnter={() => setHoveredCategory(category.id)}
                 onMouseLeave={() => setHoveredCategory(null)}
-                to="/"
+                to={category.href}
+                className={`${
+                  "/" + location.pathname.split("/")[1] === category.href
+                    ? "border-b border-white"
+                    : ""
+                }`}
               >
-                {category.name}
+                {t(category.name)}
               </Link>
             ))}
             <Link
@@ -173,7 +158,7 @@ const Header = () => {
                       to="/"
                       className="mb-2 border-b border-white py-2 hover:text-neutral-200 "
                     >
-                      {subCat}
+                      {t(subCat)}
                     </Link>
                   ))}
               </div>
