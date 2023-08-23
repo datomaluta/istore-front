@@ -8,7 +8,7 @@ import { Product } from "../types/product";
 import ProductCard from "../components/sharedComponents/productCard/ProductCard";
 
 const Computers = () => {
-  let id = 1;
+  const id = 1;
   const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
 

@@ -5,9 +5,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#38bdf8",
-        tint: "#73d0fa",
-        shade: "#2c97c6",
+        primary: "#1e549f",
+        tint: "#2e79ba",
+        shade: "#5fc9f3",
         darkbg: "#121212",
       },
       fontFamily: {

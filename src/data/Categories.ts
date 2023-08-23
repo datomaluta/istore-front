@@ -3,7 +3,7 @@ export const categories = [
     name: "comps",
     href: "/computers",
     id: 1,
-    subCategories: ["laptops", "pc", "all_in_one"],
+    subCategories: ["laptop", "pc", "all_in_one"],
   },
   {
     name: "comp_parts",

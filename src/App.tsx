@@ -2,10 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import { useTranslation } from "react-i18next";
 import Computers from "./pages/Computers";
-import Laptops from "./pages/Laptops";
+import SubCategory from "./pages/SubCategory";
 
 function App() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   return (
     <div
@@ -19,7 +19,8 @@ function App() {
           <Route path="/computers" element={<Computers />} />
           <Route path="/parts" element={<Computers />} />
           <Route path="/peripherals" element={<Computers />} />
-          <Route path="/computers/laptops" element={<Laptops />} />
+          {/* <Route path="/computers/laptops" element={<Laptops />} /> */}
+          <Route path="/computers/:subCategory" element={<SubCategory />} />
         </Routes>
       </div>
     </div>

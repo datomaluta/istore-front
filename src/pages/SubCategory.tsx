@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Header from "../components/header/Header";
 import ProductCard from "../components/sharedComponents/productCard/ProductCard";
 import { categories } from "../data/Categories";
@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 import { ChangeEvent } from "react";
 import { getCategoryAllProducts } from "../../services/categoryService";
 import { Product } from "../types/product";
+import { useQuery } from "@tanstack/react-query";
 
-const Laptops = () => {
-  const id = 1;
+const SubCategory = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [price, setPrice] = useState(100);
@@ -17,19 +17,27 @@ const Laptops = () => {
     // console.log(e.target.value);
     setPrice(+e.target.value);
   };
-  console.log(location.pathname.split("/")[2]);
   const [products, setProducts] = useState<Product[]>([]);
+  const { subCategory } = useParams();
 
-  useEffect(() => {
-    const testRequest = async () => {
-      const response = await getCategoryAllProducts("laptop");
-      console.log(response);
-      setProducts(response.data);
-    };
-    testRequest().catch((e) => console.log(e));
+  const laptopsQuery = useQuery({
+    queryKey: ["laptops"],
+    queryFn: () => getCategoryAllProducts("laptop"),
+  });
 
-    // console.log(response);
-  }, []);
+  console.log(laptopsQuery);
+
+  //   useEffect(() => {
+  //     if (subCategory) {
+  //       const testRequest = async () => {
+  //         const response = await getCategoryAllProducts(subCategory);
+  //         console.log(response);
+  //         setProducts(response.data);
+  //       };
+  //       testRequest().catch((e) => console.log(e));
+  //     }
+  //   }, [subCategory]);
+  const id = 1;
   return (
     <>
       <Header />
@@ -74,13 +82,16 @@ const Laptops = () => {
           </div>
         </div>
 
+        {laptopsQuery?.isLoading && <p>Loading...</p>}
+
         <div
           className="bg-blue-5 flex-grow grid gap-x-2 gap-y-8 grid-cols-3
          justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 "
         >
-          {products?.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {laptopsQuery &&
+            laptopsQuery?.data?.data?.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           {/* <ProductCard />
           <ProductCard />
           <ProductCard />
@@ -92,4 +103,4 @@ const Laptops = () => {
   );
 };
 
-export default Laptops;
+export default SubCategory;

@@ -14,10 +14,10 @@ const ProductCard = ({ product }: ProductCardPropsType) => {
         />
       </div>
       <p className="h-12 mt-2 text-neutral-800 dark:text-neutral-300">
-        {product.brand}
+        {product?.brand}
       </p>
       <p className="font-bold text-lg text-neutral-800 dark:text-neutral-300">
-        {product.price}$
+        {product?.price}$
       </p>
     </div>
   );

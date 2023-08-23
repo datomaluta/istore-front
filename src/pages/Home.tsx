@@ -4,8 +4,6 @@ import BigSlider from "../components/homeComponents/bigSlider/BigSlider";
 import DiscountSlider from "../components/homeComponents/discountSlider/DiscountSlider";
 import Features from "../components/homeComponents/features/Features";
 import TestimonialLayout from "../components/homeComponents/testimonial/TestimonialLayour";
-import SaleIcon from "../components/icons/SaleIcon";
-// import BigSlider from "../components/homeComponents/bigSlider/BigSlider";
 
 const Home = () => {
   return (

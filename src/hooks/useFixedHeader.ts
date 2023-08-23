@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useFixedHeader = () => {
   const [isBottomFixed, setIsBottomFixed] = useState(false);
 
   useEffect(() => {
     const header = document.getElementById("myHeader");
-    let sticky = header?.offsetTop;
+    const sticky = header?.offsetTop;
     function myFunction() {
       if (sticky && window.pageYOffset > sticky) {
         setIsBottomFixed(true);

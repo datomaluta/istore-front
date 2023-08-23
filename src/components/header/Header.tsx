@@ -1,56 +1,37 @@
-import { useTranslation } from "react-i18next";
 import BasketIcon from "../icons/BasketIcon";
 import SearchIcon from "../icons/SearchIcon";
 import Theme from "../sharedComponents/Theme";
 import geoFlag from "../../assets/images/geo.png";
 import usaFlag from "../../assets/images/usa.png";
-import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import BurgerIcon from "../icons/BurgerIcon";
-import useScreenWidth from "../../hooks/useScreenWidth";
-import useFixedHeader from "../../hooks/useFixedHeader";
 import MobileHeaderContent from "./MobileHaderContent";
 import { categories } from "../../data/Categories";
+import useHeader from "./useHeader";
 
 const Header = () => {
-  const { t, i18n } = useTranslation();
-  const [inputIsVisible, setInputIsVisible] = useState(true);
-  const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
-  const [mobileHeaderIsVisible, setMobileHeaderIsVisible] = useState(false);
-  const { isBottomFixed } = useFixedHeader();
-  const { screenWidth } = useScreenWidth();
-  const placeholderText = t("search_msg");
-  const lngs = ["en", "ka"];
-  const location = useLocation();
-
-  const inputIsVisibleHandler = (): void => {
-    setInputIsVisible((currState) => !currState);
-  };
-
-  useEffect(() => {
-    function handleScreenWidthChange() {
-      if (screenWidth <= 800) {
-        setInputIsVisible(false);
-      }
-    }
-    handleScreenWidthChange();
-    return () => {
-      setInputIsVisible(true);
-    };
-  }, [screenWidth]);
-
-  const mobileHeaderVisibilityHandler = () => {
-    setMobileHeaderIsVisible((currState) => !currState);
-  };
+  const {
+    mobileHeaderIsVisible,
+    mobileHeaderVisibilityHandler,
+    lngs,
+    i18n,
+    inputIsVisible,
+    placeholderText,
+    inputIsVisibleHandler,
+    isBottomFixed,
+    setHoveredCategory,
+    t,
+    hoveredCategory,
+  } = useHeader();
 
   return (
-    <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white z-50">
+    <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white z-50 px-2">
       {mobileHeaderIsVisible && (
         <MobileHeaderContent
           mobileHeaderVisibilityHandler={mobileHeaderVisibilityHandler}
         />
       )}
-      <div className="max-w-[75rem] bg-red-40 mx-auto flex items-center justify-between border-b-[0.05rem] pb-2 py-2 md:px-2">
+      <div className="max-w-[75rem] bg-red-40 mx-auto flex items-center justify-between border-b-[0.05rem] pb-2 py-2  ">
         <h1 className="text-5xl sm:text-4xl font-bold text-white font-sans">
           istore
         </h1>
@@ -87,7 +68,7 @@ const Header = () => {
               />
               <button
                 className="bg-tint w-8 rounded flex items-center justify-center h-8 absolute top-1/2 -translate-y-1/2 right-0.5 md:hidden"
-                onClick={inputIsVisibleHandler}
+                // onClick={inputIsVisibleHandler}
               >
                 <SearchIcon />
               </button>
@@ -103,12 +84,12 @@ const Header = () => {
       </div>
 
       <div
-        className={`px-2 mx-auto flex justify-between  items-center bg-sky-400 transition-all h-[4rem]  ${
-          isBottomFixed ? "fixed top-0 left-0 w-full " : ""
+        className={` mx-auto flex  justify-between  items-center bg-primary transition-all h-[4rem]  ${
+          isBottomFixed ? "fixed top-0 left-0 w-full px-2" : ""
         }`}
         id="myHeader"
       >
-        <div className="flex justify-between md:w-full w-[75rem] mx-auto relative">
+        <div className="flex justify-between md:w-full w-[75rem] mx-auto relative ">
           <nav
             className={`flex gap-4  md:hidden ${
               i18n.resolvedLanguage === "ka" ? "font-bpg" : "font-sans"
@@ -144,7 +125,7 @@ const Header = () => {
 
             {hoveredCategory && (
               <div
-                className=" bg-sky-400 text-white overflow-hidden
+                className=" bg-primary text-white overflow-hidden
               rounded-b w-[21rem] lg:w-[17rem] h-72 absolute  bottom-0  translate-y-full left-[0]
                animate-smoothHeightGrow py-4 px-2 pt-6 flex flex-col"
                 onMouseEnter={() => setHoveredCategory(hoveredCategory)}

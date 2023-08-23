@@ -2,10 +2,10 @@ const LightModeIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      fill="#38bdf8"
+      fill="#1e549f"
       viewBox="0 0 24 24"
       strokeWidth="1.5"
-      stroke="#38bdf8"
+      stroke="#1e549f"
       //   class="w-6 h-6"
       width="26px"
       height="26px"
