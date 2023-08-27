@@ -11,8 +11,8 @@ const FeatureCard = ({ featureTitle, featureBody, children }: propsType) => {
     >
       <span>{children}</span>
       <div className="text-sm sm:text-[0.8rem] lg:text-center">
-        <p className="text-neutral-200 font-bold">{featureTitle}</p>
-        <p className="text-neutral-400 sm:px-2">{featureBody}</p>
+        <p className=" font-bold">{featureTitle}</p>
+        <p className=" sm:px-2">{featureBody}</p>
       </div>
     </div>
   );

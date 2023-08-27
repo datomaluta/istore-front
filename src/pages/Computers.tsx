@@ -1,45 +1,47 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Header from "../components/header/Header";
 import { categories } from "../data/Categories";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
 import { getCategoryAllProducts } from "../../services/categoryService";
 import { Product } from "../types/product";
 import ProductCard from "../components/sharedComponents/productCard/ProductCard";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "../components/sharedComponents/Loader";
+import { useEffect, useState } from "react";
 
 const Computers = () => {
-  const id = 1;
+  const { pathname } = useLocation();
   const { t } = useTranslation();
-  const [products, setProducts] = useState<Product[]>([]);
+  const [itsTime, setItsTime] = useState(false);
 
   useEffect(() => {
-    const testRequest = async () => {
-      const response = await getCategoryAllProducts("computers");
-      console.log(response);
-      setProducts(response.data);
-    };
-    testRequest().catch((e) => console.log(e));
-
-    // console.log(response);
+    setTimeout(() => {
+      setItsTime(true);
+    }, 2000);
   }, []);
 
-  console.log(products);
+  const computersQuery = useQuery({
+    queryKey: ["computers"],
+    queryFn: () => getCategoryAllProducts("computers"),
+    enabled: itsTime,
+  });
 
   return (
     <>
       <Header />
+
       <div className="pt-40 px-4 flex gap-4 items-start lg:flex-col">
-        <div className="bg-red-60 w-[25%] border border-neutral-500 rounded shrink-0 lg:w-full">
+        <div className="bg-red-60 w-[25%] border border-greyForBorder dark:border-greyforText rounded shrink-0 lg:w-full">
           <p className="text-lg px-2 py-2 text-primary font-bold">
             Subcategories
           </p>
           <ul className="flex flex-col">
             {categories
-              .find((category) => category.id === id)
+              .find((category) => category.href === pathname)
               ?.subCategories?.map((subCat) => (
                 <li
                   key={subCat}
-                  className=" border-t border-neutral-500 p-2 pl-4 text-neutral-900  dark:text-neutral-200 
+                  className=" border-t border-greyForBorder dark:border-greyforText p-2 pl-4 
                   hover:text-primary hover:bg-neutral-800 group"
                 >
                   <Link
@@ -54,16 +56,13 @@ const Computers = () => {
         </div>
         <div
           className="bg-blue-5 flex-grow grid gap-x-2 gap-y-8 grid-cols-3
-         justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 "
+         justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 relative  min-h-[30rem]"
         >
-          {products?.map((product) => (
+          {computersQuery.isLoading && <Loader />}
+
+          {computersQuery?.data?.data?.map((product: Product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-          {/* <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard /> */}
         </div>
       </div>
     </>

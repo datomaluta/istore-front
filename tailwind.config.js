@@ -9,6 +9,9 @@ export default {
         tint: "#2e79ba",
         shade: "#5fc9f3",
         darkbg: "#121212",
+        greyforText: "#373D3F",
+        greyForBorder: "#D8D9CF",
+        darkWhiteForText: "#E1D9D1",
       },
       fontFamily: {
         bpg: "bpg",

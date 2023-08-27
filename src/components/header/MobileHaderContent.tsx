@@ -3,6 +3,7 @@ import CloseIcon from "../icons/CloseIcon";
 import { useTranslation } from "react-i18next";
 import DownArrowIcon from "../icons/DownArrowIcon";
 import useMobileHeaderClicked from "../../hooks/useMobileHeaderClicked";
+import { motion } from "framer-motion";
 
 const MobileHeaderContent = (props: {
   mobileHeaderVisibilityHandler: () => void;
@@ -25,7 +26,10 @@ const MobileHeaderContent = (props: {
   const { t, i18n } = useTranslation();
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, x: -500 }}
+      animate={{ opacity: 1, x: 0, transition: { duration: 0.2 } }}
+      exit={{ opacity: 0, x: -500, transition: { duration: 0.2 } }}
       className="max-w-screen min-h-screen bg-neutral-800  fixed top-0 left-0 right-0 z-50 
     flex flex-col items-center pt-40 gap-2"
     >
@@ -119,7 +123,7 @@ const MobileHeaderContent = (props: {
       </div>
       <Link to="/">{t("monitor")}</Link>
       <Link to="/">{t("about_us")}</Link>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,13 +1,19 @@
 import Slider from "react-slick";
 import DiscountSlide from "./DiscountSlide";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./DiscountSlider.css";
 
 const DiscountSlider = () => {
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
+    // prevArrow: <CustomPrevArrow />,
+    // nextArrow: <CustomNextArrow />,
+
     responsive: [
       {
         breakpoint: 1200,
@@ -34,6 +40,7 @@ const DiscountSlider = () => {
   };
   return (
     <Slider className="w-[97%] sm:w-[92%] mx-auto " {...settings}>
+      {/* <CustomNextArrow /> */}
       <DiscountSlide
         imgsrc="https://alta.ge/images/thumbnails/270/250/detailed/243/113532_1.png?t=1657513543"
         productName="Lenovo V14-ADA (82C6006ERU) 256gb"

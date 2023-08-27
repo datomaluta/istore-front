@@ -20,7 +20,7 @@ const BigSlider = () => {
     autoplaySpeed: 2000,
   };
   return (
-    <Slider {...settings} className=" w-[100%] mx-auto rounded">
+    <Slider {...settings} className="w-[100%] mx-auto rounded">
       <BigSliderSlide imgSrc={sliderimg1} />
       <BigSliderSlide imgSrc={sliderimg2} />
       <BigSliderSlide imgSrc={sliderimg3} />
