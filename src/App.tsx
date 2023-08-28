@@ -18,10 +18,15 @@ function App() {
       <div className="max-w-[75rem] mx-auto bg-white dark:bg-neutral-900  min-h-screen transition-all">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/computers" element={<Computers />} />
+          {/* <Route path="/computers/:page" element={<Computers />} /> */}
+          <Route path="/computers/page/:page" element={<Computers />} />
+
           <Route path="/parts" element={<Computers />} />
           <Route path="/peripherals" element={<Computers />} />
-          <Route path="/computers/:subCategory" element={<SubCategory />} />
+          <Route
+            path="/computers/:subCategory/page/:page"
+            element={<SubCategory />}
+          />
         </Routes>
       </div>
     </div>

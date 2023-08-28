@@ -13,31 +13,22 @@ const SubCategory = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [price, setPrice] = useState(100);
+  const { subCategory, page } = useParams();
+  const { pathname } = useLocation();
+  const [currentPage, setCurrentPage] = useState(page || 1);
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.value);
     setPrice(+e.target.value);
   };
-  const [products, setProducts] = useState<Product[]>([]);
-  const { subCategory } = useParams();
 
   const laptopsQuery = useQuery({
-    queryKey: ["laptops"],
-    queryFn: () => getCategoryAllProducts("laptop"),
+    queryKey: ["subCategory", subCategory, currentPage],
+    queryFn: () => getCategoryAllProducts(subCategory || "laptop", currentPage),
   });
 
-  console.log(laptopsQuery);
+  console.log(laptopsQuery?.data?.data?.data);
+  console.log(subCategory);
 
-  //   useEffect(() => {
-  //     if (subCategory) {
-  //       const testRequest = async () => {
-  //         const response = await getCategoryAllProducts(subCategory);
-  //         console.log(response);
-  //         setProducts(response.data);
-  //       };
-  //       testRequest().catch((e) => console.log(e));
-  //     }
-  //   }, [subCategory]);
-  const id = 1;
   return (
     <>
       <Header />
@@ -49,7 +40,9 @@ const SubCategory = () => {
             </p>
             <ul className="flex flex-col">
               {categories
-                .find((category) => category.id === id)
+                .find(
+                  (category) => category.fullName === pathname.split("/")[1]
+                )
                 ?.subCategories?.map((subCat) => (
                   <li
                     key={subCat}
@@ -62,7 +55,7 @@ const SubCategory = () => {
                           ? "text-primary"
                           : ""
                       }`}
-                      to={`/computers/${subCat}`}
+                      to={`/${pathname.split("/")[1]}/${subCat}/page/1`}
                     >
                       {t(subCat)}
                     </Link>
@@ -88,10 +81,9 @@ const SubCategory = () => {
           className="bg-blue-5 flex-grow grid gap-x-2 gap-y-8 grid-cols-3
          justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 "
         >
-          {laptopsQuery &&
-            laptopsQuery?.data?.data?.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+          {laptopsQuery?.data?.data?.data?.map((product: Product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
           {/* <ProductCard />
           <ProductCard />
           <ProductCard />

@@ -25,6 +25,10 @@ const Header = () => {
     hoveredCategory,
   } = useHeader();
 
+  const hoveredCategoryObject = categories?.find(
+    (category) => category.id === hoveredCategory
+  );
+
   return (
     <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white z-50 px-2">
       <AnimatePresence>
@@ -95,10 +99,18 @@ const Header = () => {
       >
         <div className="flex justify-between md:w-full w-[75rem] mx-auto relative ">
           <nav
-            className={`flex gap-4  md:hidden ${
+            className={`flex gap-4  lg:hidden ${
               i18n.resolvedLanguage === "ka" ? "font-bpg" : "font-sans"
             }`}
           >
+            <Link
+              className={`${
+                location.pathname === "/" ? "border-b border-white" : ""
+              }`}
+              to="/"
+            >
+              მთავარი
+            </Link>
             {categories.map((category) => (
               <Link
                 key={category.id}
@@ -106,7 +118,7 @@ const Header = () => {
                 onMouseLeave={() => setHoveredCategory(null)}
                 to={category.href}
                 className={`${
-                  "/" + location.pathname.split("/")[1] === category.href
+                  location.pathname.split("/")[1] === category.fullName
                     ? "border-b border-white"
                     : ""
                 }`}
@@ -129,9 +141,9 @@ const Header = () => {
 
             {hoveredCategory && (
               <div
-                className=" bg-primary text-white overflow-hidden
-              rounded-b w-[21rem] lg:w-[17rem] h-72 absolute  bottom-0  translate-y-full left-[0]
-               animate-smoothHeightGrow py-4 px-2 pt-6 flex flex-col"
+                className={` bg-primary text-white overflow-hidden
+              rounded-b w-[27rem] lg:w-[24rem] h-72 absolute  bottom-0  translate-y-full
+               animate-smoothHeightGrow py-4 px-2 pt-6 flex flex-col`}
                 onMouseEnter={() => setHoveredCategory(hoveredCategory)}
                 onMouseLeave={() => setHoveredCategory(null)}
               >
@@ -140,7 +152,7 @@ const Header = () => {
                   ?.subCategories?.map((subCat) => (
                     <Link
                       key={subCat}
-                      to="/"
+                      to={`/${hoveredCategoryObject?.fullName}/${subCat}/page/1`}
                       className="mb-2 border-b border-white py-2 hover:text-neutral-200 "
                     >
                       {t(subCat)}
@@ -151,7 +163,7 @@ const Header = () => {
           </nav>
 
           <button
-            className="md:block hidden"
+            className="lg:block hidden"
             onClick={mobileHeaderVisibilityHandler}
           >
             <BurgerIcon />

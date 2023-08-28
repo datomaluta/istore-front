@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Header from "../components/header/Header";
 import { categories } from "../data/Categories";
 import { useTranslation } from "react-i18next";
@@ -8,11 +8,14 @@ import ProductCard from "../components/sharedComponents/productCard/ProductCard"
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../components/sharedComponents/Loader";
 import { useEffect, useState } from "react";
+import Pagination from "../components/sharedComponents/pagination/Pagination";
 
 const Computers = () => {
   const { pathname } = useLocation();
   const { t } = useTranslation();
+  const { page } = useParams();
   const [itsTime, setItsTime] = useState(false);
+  const [currentPage, setCurrentPage] = useState(page || 1);
 
   useEffect(() => {
     setTimeout(() => {
@@ -20,9 +23,13 @@ const Computers = () => {
     }, 2000);
   }, []);
 
-  const computersQuery = useQuery({
-    queryKey: ["computers"],
-    queryFn: () => getCategoryAllProducts("computers"),
+  useEffect(() => {
+    if (page) setCurrentPage(page);
+  }, [page]);
+
+  const { isLoading, data: computersQuery } = useQuery({
+    queryKey: ["computers", currentPage],
+    queryFn: () => getCategoryAllProducts("computers", currentPage),
     enabled: itsTime,
   });
 
@@ -33,11 +40,11 @@ const Computers = () => {
       <div className="pt-40 px-4 flex gap-4 items-start lg:flex-col">
         <div className="bg-red-60 w-[25%] border border-greyForBorder dark:border-greyforText rounded shrink-0 lg:w-full">
           <p className="text-lg px-2 py-2 text-primary font-bold">
-            Subcategories
+            Computers Subcategories
           </p>
           <ul className="flex flex-col">
             {categories
-              .find((category) => category.href === pathname)
+              .find((category) => category.fullName === pathname.split("/")[1])
               ?.subCategories?.map((subCat) => (
                 <li
                   key={subCat}
@@ -46,7 +53,7 @@ const Computers = () => {
                 >
                   <Link
                     className="w-full block group-hover:text-primary"
-                    to={`/computers/${subCat}`}
+                    to={`/computers/${subCat}/page/1`}
                   >
                     {t(subCat)}
                   </Link>
@@ -54,15 +61,26 @@ const Computers = () => {
               ))}
           </ul>
         </div>
-        <div
-          className="bg-blue-5 flex-grow grid gap-x-2 gap-y-8 grid-cols-3
-         justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 relative  min-h-[30rem]"
-        >
-          {computersQuery.isLoading && <Loader />}
+        <div className=" w-full">
+          <div
+            className={`bg-blue-5 grid gap-x-4 gap-y-8 grid-cols-3
+            justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 relative ${
+              isLoading && "min-h-[30rem]"
+            }`}
+          >
+            {isLoading && <Loader />}
 
-          {computersQuery?.data?.data?.map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+            {computersQuery?.data?.data?.map((product: Product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          {computersQuery?.data?.data && (
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              total={computersQuery?.data.last_page}
+            />
+          )}
         </div>
       </div>
     </>
