@@ -5,12 +5,13 @@ import DiscountSlider from "../components/homeComponents/discountSlider/Discount
 import Features from "../components/homeComponents/features/Features";
 import TestimonialLayout from "../components/homeComponents/testimonial/TestimonialLayour";
 import { motion } from "framer-motion";
+import Layout from "../components/sharedComponents/layout/Layout";
 
 const Home = () => {
   // const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
 
   return (
-    <>
+    <Layout>
       <Header />
       <motion.div
         className=" pt-40 lg:pt-36 px-4 pb-20"
@@ -30,7 +31,7 @@ const Home = () => {
         <TestimonialLayout />
       </motion.div>
       <Footer />
-    </>
+    </Layout>
   );
 };
 

@@ -1,10 +1,9 @@
-import { Route, Routes, useLocation, useRoutes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import { useTranslation } from "react-i18next";
 import Computers from "./pages/Computers";
 import SubCategory from "./pages/SubCategory";
-import { AnimatePresence } from "framer-motion";
-import React from "react";
+import Dashboard from "./pages/admin/dashboard/Dashboard";
 
 function App() {
   const { i18n } = useTranslation();
@@ -15,20 +14,21 @@ function App() {
         i18n.resolvedLanguage === "ka" ? "font-bpg" : "font-sans"
       } relative`}
     >
-      <div className="max-w-[75rem] mx-auto bg-white dark:bg-neutral-900  min-h-screen transition-all">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          {/* <Route path="/computers/:page" element={<Computers />} /> */}
-          <Route path="/computers/page/:page" element={<Computers />} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/computers/:page" element={<Computers />} /> */}
+        <Route path="/computers/page/:page" element={<Computers />} />
 
-          <Route path="/parts" element={<Computers />} />
-          <Route path="/peripherals" element={<Computers />} />
-          <Route
-            path="/computers/:subCategory/page/:page"
-            element={<SubCategory />}
-          />
-        </Routes>
-      </div>
+        <Route path="/parts" element={<Computers />} />
+        <Route path="/peripherals" element={<Computers />} />
+        <Route
+          path="/computers/:subCategory/page/:page"
+          element={<SubCategory />}
+        />
+
+        {/* admin */}
+        <Route path="/admin/dashboard" element={<Dashboard />} />
+      </Routes>
     </div>
   );
 }

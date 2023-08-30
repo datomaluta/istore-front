@@ -8,6 +8,8 @@ export default {
         primary: "#1e549f",
         tint: "#2e79ba",
         shade: "#5fc9f3",
+        darkBlue: "#1C2434",
+        darkLightBlue: "#333A48",
         darkbg: "#121212",
         greyforText: "#373D3F",
         greyForBorder: "#D8D9CF",
