@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useMobileHeaderClicked = () => {
+const useCategoryClicked = () => {
   const [categoryIsClicked, setCategoryIsClicked] = useState(false);
 
   const categoryClickHandler = () => {
@@ -10,4 +10,4 @@ const useMobileHeaderClicked = () => {
   return { categoryIsClicked, categoryClickHandler };
 };
 
-export default useMobileHeaderClicked;
+export default useCategoryClicked;

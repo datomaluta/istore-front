@@ -1,3 +1,4 @@
+import { PropsType } from "./types";
 import usePagination from "./usePagination";
 
 const Pagination = ({ total, currentPage, setCurrentPage }: PropsType) => {

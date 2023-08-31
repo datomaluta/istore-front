@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useAdminLayout = () => {
+const useSidebar = () => {
   const [categoryIsClicked, setCategoryIsClicked] = useState(false);
 
   const categoryClickHandler = () => {
@@ -10,4 +10,4 @@ const useAdminLayout = () => {
   return { categoryIsClicked, categoryClickHandler };
 };
 
-export default useAdminLayout;
+export default useSidebar;

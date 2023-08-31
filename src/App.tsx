@@ -28,6 +28,8 @@ function App() {
 
         {/* admin */}
         <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/profile" element={<Dashboard />} />
+        <Route path="/admin/computers/:subcategory" element={<Dashboard />} />
       </Routes>
     </div>
   );

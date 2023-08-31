@@ -3,6 +3,6 @@ export interface ProductCardPropsType {
     brand: string;
     price: number;
     image: string;
-    category_id: numberp;
+    category_id: number;
   };
 }

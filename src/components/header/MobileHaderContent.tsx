@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import CloseIcon from "../icons/CloseIcon";
 import { useTranslation } from "react-i18next";
 import DownArrowIcon from "../icons/DownArrowIcon";
-import useMobileHeaderClicked from "../../hooks/useMobileHeaderClicked";
 import { motion } from "framer-motion";
+import useCategoryClicked from "../../hooks/useCategoryClicked";
 
 const MobileHeaderContent = (props: {
   mobileHeaderVisibilityHandler: () => void;
@@ -11,17 +11,17 @@ const MobileHeaderContent = (props: {
   const {
     categoryIsClicked: compsCategoryIsClicked,
     categoryClickHandler: compsCategoryClickHandler,
-  } = useMobileHeaderClicked();
+  } = useCategoryClicked();
 
   const {
     categoryIsClicked: hardwareCategoryIsClicked,
     categoryClickHandler: hadrwareCategoryClickHandler,
-  } = useMobileHeaderClicked();
+  } = useCategoryClicked();
 
   const {
     categoryIsClicked: peripheralsCategoryIsClicked,
     categoryClickHandler: peripheralsCategoryClickHandler,
-  } = useMobileHeaderClicked();
+  } = useCategoryClicked();
 
   const { t, i18n } = useTranslation();
 
