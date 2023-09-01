@@ -1,7 +1,7 @@
 const DownArrowIcon = () => {
   return (
     <svg
-      fill="#fff"
+      className="fill-black dark:fill-white"
       height="12px"
       width="12px"
       version="1.1"

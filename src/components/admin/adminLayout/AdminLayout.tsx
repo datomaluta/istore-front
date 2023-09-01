@@ -1,19 +1,17 @@
-import { useState } from "react";
 import Sidebar from "../generalComponents/sidebar/Sidebar";
+import AdminHeader from "../generalComponents/adminHeader/AdminHeader";
+import useAdminLayout from "./useAdminLayout";
 
 const AdminLayout = (props: { children: JSX.Element | JSX.Element[] }) => {
-  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const { sidebarVisible, setSidebarVisible } = useAdminLayout();
   return (
-    <div className="bg-blue-200 min-h-screen flex">
+    <div className="min-h-screen flex pt-20">
       <Sidebar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
       />
-      <div className="bg-blue-500 w-full h-[140rem] ml-72 lg:ml-0 overflow-y-auto">
-        <header className="bg-yellow-400">
-          <h1>header</h1>
-          <button onClick={() => setSidebarVisible(true)}>Open Sidebar</button>
-        </header>
+      <div className="w-full h-[140rem]  ml-72  lg:ml-0 p-5  transition-all overflow-y-auto relative bg-adminBgWhite dark:bg-adminBgDark">
+        <AdminHeader setSidebarVisible={setSidebarVisible} />
         {props.children}
       </div>
     </div>

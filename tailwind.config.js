@@ -14,6 +14,10 @@ export default {
         greyforText: "#373D3F",
         greyForBorder: "#D8D9CF",
         darkWhiteForText: "#E1D9D1",
+        adminBgWhite: "#F1F5F9",
+        adminBgDark: "#1A222C",
+        adminBgLightDark: "#24303F",
+        adminBgLightDark2: "#313D4A",
       },
       fontFamily: {
         bpg: "bpg",
