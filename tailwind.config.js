@@ -19,6 +19,10 @@ export default {
         adminBgLightDark: "#24303F",
         adminBgLightDark2: "#313D4A",
       },
+      backgroundImage: {
+        interStellar:
+          "linear-gradient(to right bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url('/images/techbg.jpg')",
+      },
       fontFamily: {
         bpg: "bpg",
         arial: "arial",

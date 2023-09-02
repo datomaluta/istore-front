@@ -1,14 +1,49 @@
+import { useEffect, useState } from "react";
 import AdminLayout from "../../../components/admin/adminLayout/AdminLayout";
 import InfoCard from "../../../components/admin/dashboardComponents/infoCard/InfoCard";
 import ProductIcon from "../../../components/icons/ProductIcon";
 import ProfitIcon from "../../../components/icons/ProfitIcon";
 import UsersIcon from "../../../components/icons/UsersIcon";
 import ViewIcon from "../../../components/icons/ViewIcon";
+import { motion } from "framer-motion";
 
 const Dashboard = () => {
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShouldAnimate(true);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
   return (
     <AdminLayout>
-      <div className="grid grid-cols-4 gap-4 xl:grid-cols-2 sm:grid-cols-1">
+      <div className="h-[23rem] bg-interStellar bg-center bg-cover mb-10 rounded relative flex justify-center items-center overflow-hidden">
+        <motion.h1
+          initial={{ opacity: 0, y: -300 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+
+            transition: {
+              duration: 0.5,
+              type: "spring",
+              stiffness: 360,
+              damping: 20,
+            },
+          }}
+          className={`text-6xl font-sans font-bold ${
+            shouldAnimate ? "animate-pulse" : ""
+          }`}
+        >
+          istore
+        </motion.h1>
+      </div>
+      <div className="grid grid-cols-2 gap-4  sm:grid-cols-1">
         <InfoCard label="Total Views" percent={0.34} count={3.567}>
           <ViewIcon />
         </InfoCard>

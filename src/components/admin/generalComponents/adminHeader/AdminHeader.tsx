@@ -41,7 +41,7 @@ const AdminHeader = ({ setSidebarVisible }: PropsType) => {
       {userDropDownVisible && (
         <div
           className="flex flex-col gap-2 items-start bg-white dark:bg-adminBgLightDark px-3 py-4
-      rounded absolute -bottom-2 right-4 translate-y-full "
+      rounded absolute -bottom-2 right-4 translate-y-full shadow-lg"
         >
           <Link className="flex gap-2 hover:text-tint " to="#">
             <ProfileIcon />

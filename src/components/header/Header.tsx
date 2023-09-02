@@ -173,7 +173,7 @@ const Header = () => {
             className="lg:block hidden"
             onClick={mobileHeaderVisibilityHandler}
           >
-            <BurgerIcon currentColor="#fff" />
+            <BurgerIcon />
           </button>
           <div className="flex items-center">
             <button className="mr-6 sm:mr-4 relative">
