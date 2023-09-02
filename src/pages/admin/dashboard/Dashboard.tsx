@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   return (
     <AdminLayout>
-      <div className="h-[23rem] bg-interStellar bg-center bg-cover mb-10 rounded relative flex justify-center items-center overflow-hidden">
+      <div className="h-[23rem] bg-interStellar bg-center bg-cover mb-10 rounded  flex justify-center items-center overflow-hidden">
         <motion.h1
           initial={{ opacity: 0, y: -300 }}
           animate={{
@@ -36,7 +36,7 @@ const Dashboard = () => {
               damping: 20,
             },
           }}
-          className={`text-6xl font-sans font-bold ${
+          className={`text-6xl font-sans font-bold text-white ${
             shouldAnimate ? "animate-pulse" : ""
           }`}
         >

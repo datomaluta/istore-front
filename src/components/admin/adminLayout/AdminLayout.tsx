@@ -10,7 +10,7 @@ const AdminLayout = (props: { children: JSX.Element | JSX.Element[] }) => {
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
       />
-      <div className="w-full h-[140rem]  ml-72  lg:ml-0 p-5  transition-all overflow-y-auto relative bg-adminBgWhite dark:bg-adminBgDark">
+      <div className="w-full ml-72  lg:ml-0 p-5  transition-all overflow-y-auto relative bg-adminBgWhite dark:bg-adminBgDark">
         <AdminHeader setSidebarVisible={setSidebarVisible} />
         {props.children}
       </div>
