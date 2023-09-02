@@ -1,7 +1,7 @@
 const CloseIcon = () => {
   return (
     <svg
-      fill="#fff"
+      className="fill-black dark:fill-white"
       height="14px"
       width="14px"
       version="1.1"

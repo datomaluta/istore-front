@@ -2,12 +2,15 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import useScreenWidth from "../../hooks/useScreenWidth";
 import useFixedHeader from "../../hooks/useFixedHeader";
+import { categories } from "../../data/Categories";
 
 const useHeader = () => {
   const { t, i18n } = useTranslation();
   const [inputIsVisible, setInputIsVisible] = useState(true);
   const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
   const [mobileHeaderIsVisible, setMobileHeaderIsVisible] = useState(false);
+  const [signInModalIsVisible, setSignInModalIsVisible] = useState(false);
+  const [signUpModalIsVisible, setSignUpModalIsVisible] = useState(false);
   const { isBottomFixed } = useFixedHeader();
   const { screenWidth } = useScreenWidth();
   const placeholderText = t("search_msg");
@@ -33,6 +36,19 @@ const useHeader = () => {
     setMobileHeaderIsVisible((currState) => !currState);
   };
 
+  const hoveredCategoryObject = categories?.find(
+    (category) => category.id === hoveredCategory
+  );
+
+  const closeSignInOpenSignUpHandler = () => {
+    setSignInModalIsVisible(false);
+    setSignUpModalIsVisible(true);
+  };
+  const closeSignUpOpenSignInHandler = () => {
+    setSignUpModalIsVisible(false);
+    setSignInModalIsVisible(true);
+  };
+
   return {
     mobileHeaderIsVisible,
     mobileHeaderVisibilityHandler,
@@ -45,6 +61,13 @@ const useHeader = () => {
     setHoveredCategory,
     t,
     hoveredCategory,
+    hoveredCategoryObject,
+    closeSignInOpenSignUpHandler,
+    closeSignUpOpenSignInHandler,
+    signInModalIsVisible,
+    setSignInModalIsVisible,
+    signUpModalIsVisible,
+    setSignUpModalIsVisible,
   };
 };
 
