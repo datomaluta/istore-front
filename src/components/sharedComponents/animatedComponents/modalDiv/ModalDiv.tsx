@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import CloseIcon from "../../../icons/CloseIcon";
 import { PropsType } from "./types";
-
 const ModalDiv = ({ setModalIsVisible, children }: PropsType) => {
   return (
     <motion.div
@@ -22,7 +21,7 @@ const ModalDiv = ({ setModalIsVisible, children }: PropsType) => {
       ></div>
       <motion.div
         className=" bg-white dark:bg-adminBgDark rounded py-10 z-[600] px-10 sm:px-4 max-w-[30rem] sm:max-w-[22rem] w-full 
-    fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+    fixed top-1/2 left-1/2 "
         initial={{ opacity: 0, y: "-150%", x: "-50%" }}
         animate={{
           opacity: 1,

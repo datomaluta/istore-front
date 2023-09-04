@@ -13,6 +13,7 @@ const Home = () => {
   return (
     <Layout>
       <Header />
+
       <motion.div
         className=" pt-40 lg:pt-36 px-4 pb-20"
         initial={{ opacity: 0 }}

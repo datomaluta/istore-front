@@ -1,35 +1,118 @@
+import { useForm, useWatch } from "react-hook-form";
 import ModalDiv from "../../sharedComponents/animatedComponents/modalDiv/ModalDiv";
 import CustomInput from "../../sharedComponents/inputs/customInput/CustomInput";
-import { PropsType } from "./types";
-import { motion } from "framer-motion";
+import { FormValues, PropsType, customAxiosError } from "./types";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerFormValidationSchema } from "../../../../schemas/register";
+import { registerUser } from "../../../../services/auth";
+import { useEffect, useState } from "react";
+import PasswordInput from "../../sharedComponents/inputs/passwordInput/PasswordInput";
+import { useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import Alert from "../../sharedComponents/alert/Alert";
 
 const SignUp = ({
   closeSignUpOpenSignInHandler,
   setSignUpModalIsVisible,
 }: PropsType) => {
+  const { t, i18n } = useTranslation();
+
+  const [backErrorStatusCode, setBackErrorStatusCode] = useState<number>();
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(registerFormValidationSchema),
+  });
+
+  const name = useWatch({ name: "name", control });
+  console.log(name);
+
+  useEffect(() => {
+    setBackErrorStatusCode(0);
+  }, [name]);
+
+  const registerUserMutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data) => {
+      setSignUpModalIsVisible(false);
+      setSuccessMessage("მომხმარებელი წარმატებით დარეგისტრირდა");
+    },
+    onError: (error: customAxiosError) => {
+      if (error.response) {
+        setBackErrorStatusCode(error.response.status);
+      }
+    },
+  });
+
+  const submitHandler = async (data: FormValues) => {
+    const requestData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
+    registerUserMutation.mutate(requestData);
+  };
+
   return (
     <ModalDiv setModalIsVisible={setSignUpModalIsVisible}>
       <h1 className="border-b border-t-greyForBorder dark:border-greyforText pb-4 text-center text-2xl font-bold">
-        Sign Up
+        {t("sign_up")}
       </h1>
 
-      <div className=" mt-4">
-        <CustomInput label="Name" placeholder="Enter name..." />
-        <CustomInput label="Email" placeholder="Enter Email address..." />
-        <CustomInput label="Password" placeholder="Enter password..." />
+      <Alert />
+
+      <form onSubmit={handleSubmit(submitHandler)} className=" mt-4">
         <CustomInput
-          label="Re-type Password"
-          placeholder="Confirm password..."
+          register={register}
+          name="name"
+          label={t("name")}
+          placeholder={t("enter_name")}
+          type="text"
+          backErrorStatusCode={backErrorStatusCode}
+          frontError={t(errors["name"]?.message || "")}
         />
-        <div className="flex justify-between text-sm text-gray-500">
-          <button onClick={closeSignUpOpenSignInHandler}>
-            Already have an account?
+        <CustomInput
+          name="email"
+          register={register}
+          label={t("email")}
+          placeholder={t("enter_email")}
+          type="email"
+          frontError={t(errors["email"]?.message || "")}
+        />
+
+        <PasswordInput
+          name="password"
+          register={register}
+          label={t("password")}
+          placeholder={t("enter_password")}
+          frontError={t(errors["password"]?.message || "")}
+        />
+        <PasswordInput
+          name="confirm_password"
+          register={register}
+          label={t("retype_password")}
+          placeholder={t("confirm_password")}
+          frontError={t(errors["confirm_password"]?.message || "")}
+        />
+        <div className="flex justify-between text-sm text-gray-500 ">
+          <button
+            className={`${i18n.resolvedLanguage === "ka" && "font-arial"} 
+            }`}
+            type="button"
+            onClick={closeSignUpOpenSignInHandler}
+          >
+            {t("already_have_an_account")}
           </button>
         </div>
         <button className="bg-primary text-white w-full py-3 rounded font-bold mt-6">
-          Sign Up
+          {registerUserMutation.isLoading ? "Loading..." : t("sign_up")}
         </button>
-      </div>
+      </form>
     </ModalDiv>
   );
 };

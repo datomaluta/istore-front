@@ -127,7 +127,7 @@ const Header = () => {
               }`}
               to="/"
             >
-              მთავარი
+              {t("home")}
             </Link>
             {categories.map((category) => (
               <Link
@@ -197,7 +197,7 @@ const Header = () => {
               <BasketIcon />
             </button>
             <button
-              onClick={() => setSignInModalIsVisible(true)}
+              onClick={() => setSignUpModalIsVisible(true)}
               className="border-l pl-4 sm:pl-2 sm:text-sm"
             >
               {t("login")}

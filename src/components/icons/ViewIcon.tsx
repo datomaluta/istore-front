@@ -2,7 +2,7 @@ const ViewIcon = () => {
   return (
     <svg
       className="fill-primary dark:fill-white"
-      width="22"
+      width="20"
       height="16"
       viewBox="0 0 22 16"
       fill="none"
