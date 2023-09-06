@@ -9,9 +9,12 @@ import MobileHeaderContent from "./MobileHaderContent";
 import { categories } from "../../data/Categories";
 import useHeader from "./useHeader";
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+
 import SignIn from "../auth/signIn/SignIn";
 import SignUp from "../auth/signUp/SignUp";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import UserIcon from "../icons/UserIcon";
 
 const Header = () => {
   const {
@@ -34,6 +37,10 @@ const Header = () => {
     signUpModalIsVisible,
     setSignUpModalIsVisible,
   } = useHeader();
+
+  const authorizedUser = useSelector(
+    (state: RootState) => state.user.authorizedUser
+  );
 
   return (
     <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white z-50 px-2">
@@ -200,7 +207,7 @@ const Header = () => {
               onClick={() => setSignUpModalIsVisible(true)}
               className="border-l pl-4 sm:pl-2 sm:text-sm"
             >
-              {t("login")}
+              {authorizedUser ? <UserIcon /> : t("login")}
             </button>
           </div>
         </div>

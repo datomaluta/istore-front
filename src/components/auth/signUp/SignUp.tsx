@@ -4,10 +4,13 @@ import CustomInput from "../../sharedComponents/inputs/customInput/CustomInput";
 import { FormValues, PropsType, customAxiosError } from "./types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerFormValidationSchema } from "../../../../schemas/register";
-import { registerUser } from "../../../../services/auth";
+import {
+  getAuthenticatedUserInfo,
+  registerUser,
+} from "../../../../services/auth";
 import { useEffect, useState } from "react";
 import PasswordInput from "../../sharedComponents/inputs/passwordInput/PasswordInput";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import Alert from "../../sharedComponents/alert/Alert";
 import LoadingSpinner from "../../sharedComponents/loadingSpinner/LoadingSpinner";
@@ -60,6 +63,13 @@ const SignUp = ({
     };
     registerUserMutation.mutate(requestData);
   };
+
+  const userQuery = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getAuthenticatedUserInfo(),
+  });
+
+  console.log(userQuery.data);
 
   return (
     <>
