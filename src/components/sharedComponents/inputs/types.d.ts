@@ -1,5 +1,3 @@
-import { UseFormRegister } from "react-hook-form";
-
 export interface CustomInputPropsType {
   label: string;
   placeholder: string;
@@ -7,10 +5,5 @@ export interface CustomInputPropsType {
   type?: string;
   backErrorStatusCode?: number;
   frontError?: any;
-  register: UseFormRegister<{
-    name: string;
-    email: string;
-    password: string;
-    confirm_password: string;
-  }>;
+  register: any;
 }

@@ -24,3 +24,15 @@ export const registerFormValidationSchema = Yup.object({
     .required("field_required")
     .oneOf([Yup.ref("password")], "password_does_not_match"),
 });
+
+export const loginFormValidationSchema = Yup.object({
+  email: Yup.string().required("field_required").email("email_format"),
+
+  password: Yup.string()
+    .required("field_required")
+    .min(4, "field_min_length")
+    .max(15, "field_max_length")
+    .matches(/^[a-z0-9]+$/, {
+      message: "only_letters_and_numbers",
+    }),
+});

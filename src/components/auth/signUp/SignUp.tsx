@@ -1,75 +1,26 @@
-import { useForm, useWatch } from "react-hook-form";
 import ModalDiv from "../../sharedComponents/animatedComponents/modalDiv/ModalDiv";
 import CustomInput from "../../sharedComponents/inputs/customInput/CustomInput";
-import { FormValues, PropsType, customAxiosError } from "./types";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { registerFormValidationSchema } from "../../../../schemas/register";
-import {
-  getAuthenticatedUserInfo,
-  registerUser,
-} from "../../../../services/auth";
-import { useEffect, useState } from "react";
+import { PropsType } from "./types";
 import PasswordInput from "../../sharedComponents/inputs/passwordInput/PasswordInput";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import Alert from "../../sharedComponents/alert/Alert";
 import LoadingSpinner from "../../sharedComponents/loadingSpinner/LoadingSpinner";
+import useSignUp from "./useSignUp";
 
 const SignUp = ({
   closeSignUpOpenSignInHandler,
   setSignUpModalIsVisible,
 }: PropsType) => {
-  const { t, i18n } = useTranslation();
-
-  const [backErrorStatusCode, setBackErrorStatusCode] = useState<number>();
-  const [successMessage, setSuccessMessage] = useState("");
-
   const {
+    backErrorStatusCode,
+    successMessage,
+    submitHandler,
+    t,
+    i18n,
     register,
     handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<FormValues>({
-    resolver: yupResolver(registerFormValidationSchema),
-  });
-
-  const name = useWatch({ name: "name", control });
-
-  useEffect(() => {
-    setBackErrorStatusCode(0);
-  }, [name]);
-
-  const registerUserMutation = useMutation({
-    mutationFn: registerUser,
-    onSuccess: () => {
-      setSuccessMessage("მომხმარებელი წარმატებით დარეგისტრირდა");
-      setTimeout(() => {
-        setSignUpModalIsVisible(false);
-        setSuccessMessage("");
-      }, 3500);
-    },
-    onError: (error: customAxiosError) => {
-      if (error.response) {
-        setBackErrorStatusCode(error.response.status);
-      }
-    },
-  });
-
-  const submitHandler = async (data: FormValues) => {
-    const requestData = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    };
-    registerUserMutation.mutate(requestData);
-  };
-
-  const userQuery = useQuery({
-    queryKey: ["userInfo"],
-    queryFn: () => getAuthenticatedUserInfo(),
-  });
-
-  console.log(userQuery.data);
+    errors,
+    registerUserMutation,
+  } = useSignUp(setSignUpModalIsVisible);
 
   return (
     <>

@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import CloseIcon from "../../../icons/CloseIcon";
 import { PropsType } from "./types";
+import { useTranslation } from "react-i18next";
 const ModalDiv = ({ setModalIsVisible, children }: PropsType) => {
+  const { i18n } = useTranslation();
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -13,7 +15,9 @@ const ModalDiv = ({ setModalIsVisible, children }: PropsType) => {
         opacity: 0,
         transition: { duration: 0.2 },
       }}
-      className="w-screen min-h-screen fixed z-[400] top-0 left-0 right-0 text-greyforText dark:text-darkWhiteForText"
+      className={`${
+        i18n.resolvedLanguage === "ka" ? "font-arial" : "font-sans"
+      }  w-screen min-h-screen fixed z-[400] top-0 left-0 right-0 text-greyforText dark:text-darkWhiteForText`}
     >
       <div
         onClick={() => setModalIsVisible(false)}

@@ -15,6 +15,11 @@ import SignUp from "../auth/signUp/SignUp";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import UserIcon from "../icons/UserIcon";
+import { useState } from "react";
+import ProfileIcon from "../icons/ProfileIcon";
+import LogoutIcon from "../icons/LogoutIcon";
+import { logoutUser } from "../../../services/auth";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Header = () => {
   const {
@@ -38,9 +43,16 @@ const Header = () => {
     setSignUpModalIsVisible,
   } = useHeader();
 
+  const [authUserActionsVisible, setAuthUserActionsVisible] = useState(false);
   const authorizedUser = useSelector(
     (state: RootState) => state.user.authorizedUser
   );
+  const queryClient = useQueryClient();
+
+  const logoutHandler = async () => {
+    await logoutUser();
+    queryClient.invalidateQueries(["userInfo"]);
+  };
 
   return (
     <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white z-50 px-2">
@@ -117,7 +129,7 @@ const Header = () => {
       </div>
 
       <div
-        className={` mx-auto flex  justify-between  items-center bg-primary transition-all h-[4rem]  ${
+        className={` mx-auto flex  justify-between  items-center bg-primary transition-all h-[4rem]   ${
           isBottomFixed ? "fixed top-0 left-0 w-full px-2" : ""
         }`}
         id="myHeader"
@@ -188,7 +200,7 @@ const Header = () => {
           </nav>
 
           <button
-            className="lg:block hidden"
+            className="lg:block hidden "
             onClick={mobileHeaderVisibilityHandler}
           >
             <BurgerIcon />
@@ -203,12 +215,41 @@ const Header = () => {
               </span>
               <BasketIcon />
             </button>
-            <button
-              onClick={() => setSignUpModalIsVisible(true)}
-              className="border-l pl-4 sm:pl-2 sm:text-sm"
-            >
-              {authorizedUser ? <UserIcon /> : t("login")}
-            </button>
+            {authorizedUser ? (
+              <button
+                onClick={() =>
+                  setAuthUserActionsVisible((prevState) => !prevState)
+                }
+                className="border-l pl-4 sm:pl-2 sm:text-sm"
+              >
+                <UserIcon />
+              </button>
+            ) : (
+              <button
+                onClick={() => setSignInModalIsVisible(true)}
+                className="border-l pl-4 sm:pl-2 sm:text-sm"
+              >
+                {t("login")}
+              </button>
+            )}
+            {authUserActionsVisible && authorizedUser && (
+              <div
+                className="flex flex-col gap-2 items-start bg-primary  px-3 py-4
+                  rounded absolute -bottom-2 right-0 translate-y-full shadow-lg z-[99999]"
+              >
+                <Link className="flex gap-2 hover:text-tint " to="#">
+                  <ProfileIcon />
+                  My profile
+                </Link>
+                <button
+                  onClick={logoutHandler}
+                  className="flex gap-2 hover:text-tint border-t border-greyforBorder mt-3 pt-4 w-full"
+                >
+                  <LogoutIcon />
+                  Log out
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -26,6 +26,7 @@ const CustomInput = (props: CustomInputPropsType) => {
       />
       <p className="text-sm text-red-500 mt-1 h-2 ">
         {backErrorStatusCode === 422 && t("value_dublicate")}
+        {backErrorStatusCode === 401 && t("invalid_credentials")}
         {frontError}
       </p>
     </div>

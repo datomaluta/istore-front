@@ -14,18 +14,21 @@ function App() {
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
 
-  const userQuery = useQuery({
-    queryKey: ["userInfo"],
-    queryFn: () => getAuthenticatedUserInfo(),
-    onSuccess: (data) => {
-      console.log("rendered");
-      dispatch(saveAuthorizedUser(data.data));
-    },
-  });
-
   const authorizedUser = useSelector(
     (state: RootState) => state.user.authorizedUser
   );
+
+  const userQuery = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getAuthenticatedUserInfo(),
+    retry: 1,
+    onSuccess: (data) => {
+      dispatch(saveAuthorizedUser(data.data));
+    },
+    onError: () => {
+      dispatch(saveAuthorizedUser(null));
+    },
+  });
 
   return (
     <div
