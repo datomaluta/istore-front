@@ -4,21 +4,18 @@ import { useTranslation } from "react-i18next";
 import Computers from "./pages/Computers";
 import SubCategory from "./pages/SubCategory";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getAuthenticatedUserInfo } from "../services/auth";
 import { saveAuthorizedUser } from "./store/userSlice/UserSlice";
-import { RootState } from "./store/store"; // Import the RootState type from your store module
+import CheckAuthAndAdmin from "./components/auth/checkAuthAndAdmin/CheckAuthAndAdmin";
+import AdminComputers from "./pages/admin/computers/AdminComputers";
 
 function App() {
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
 
-  const authorizedUser = useSelector(
-    (state: RootState) => state.user.authorizedUser
-  );
-
-  const userQuery = useQuery({
+  useQuery({
     queryKey: ["userInfo"],
     queryFn: () => getAuthenticatedUserInfo(),
     retry: 1,
@@ -26,7 +23,7 @@ function App() {
       dispatch(saveAuthorizedUser(data.data));
     },
     onError: () => {
-      dispatch(saveAuthorizedUser(null));
+      dispatch(saveAuthorizedUser(false));
     },
   });
 
@@ -49,9 +46,19 @@ function App() {
         />
 
         {/* admin */}
-        <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <CheckAuthAndAdmin admin={true}>
+              <Dashboard />
+            </CheckAuthAndAdmin>
+          }
+        />
         <Route path="/admin/profile" element={<Dashboard />} />
-        <Route path="/admin/computers/:subcategory" element={<Dashboard />} />
+        <Route
+          path="/admin/computers/:subCategory/:page"
+          element={<AdminComputers />}
+        />
       </Routes>
     </div>
   );

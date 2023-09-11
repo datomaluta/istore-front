@@ -14,7 +14,7 @@ const SidebarGroupNavLink = ({
 }: PropsType) => {
   const { pathname } = useLocation();
   return (
-    <li className="">
+    <div className="">
       <button
         className={`${
           pathname.includes("computers") ? "bg-darkLightBlue" : ""
@@ -59,7 +59,7 @@ const SidebarGroupNavLink = ({
           ""
         )}
       </AnimatePresence>
-    </li>
+    </div>
   );
 };
 

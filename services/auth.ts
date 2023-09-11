@@ -19,3 +19,7 @@ export const loginUser = async (data: { email: string; password: string }) => {
 export const logoutUser = async () => {
   return instance.get("/api/logout");
 };
+
+export const checkAdmin = async () => {
+  return instance.get("/api/test");
+};

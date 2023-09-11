@@ -19,7 +19,8 @@ import { useState } from "react";
 import ProfileIcon from "../icons/ProfileIcon";
 import LogoutIcon from "../icons/LogoutIcon";
 import { logoutUser } from "../../../services/auth";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import DashboardIcon from "../icons/DashboardIcon";
 
 const Header = () => {
   const {
@@ -49,10 +50,19 @@ const Header = () => {
   );
   const queryClient = useQueryClient();
 
-  const logoutHandler = async () => {
-    await logoutUser();
-    queryClient.invalidateQueries(["userInfo"]);
-  };
+  const { refetch } = useQuery({
+    queryKey: ["logoutUser"],
+    queryFn: () => logoutUser(),
+    onSuccess: () => {
+      console.log("gaeshva");
+      setAuthUserActionsVisible(false);
+      queryClient.invalidateQueries(["userInfo"]);
+    },
+    onError: () => {
+      // dispatch(saveAuthorizedUser(null));
+    },
+    enabled: false,
+  });
 
   return (
     <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white z-50 px-2">
@@ -234,16 +244,27 @@ const Header = () => {
             )}
             {authUserActionsVisible && authorizedUser && (
               <div
-                className="flex flex-col gap-2 items-start bg-primary  px-3 py-4
+                className="flex flex-col gap-3 items-start bg-primary  px-3 py-4
                   rounded absolute -bottom-2 right-0 translate-y-full shadow-lg z-[99999]"
               >
-                <Link className="flex gap-2 hover:text-tint " to="#">
+                <Link className="flex gap-2 hover:text-gray-300 " to="#">
                   <ProfileIcon />
                   My profile
                 </Link>
+                {authorizedUser.isAdmin ? (
+                  <Link
+                    className="flex gap-2 hover:text-gray-300"
+                    to="/admin/dashboard"
+                  >
+                    <DashboardIcon />
+                    Admin Panel
+                  </Link>
+                ) : (
+                  ""
+                )}
                 <button
-                  onClick={logoutHandler}
-                  className="flex gap-2 hover:text-tint border-t border-greyforBorder mt-3 pt-4 w-full"
+                  onClick={() => refetch()}
+                  className="flex gap-2 hover:text-gray-300 border-t border-greyforBorder mt-3 pt-4 w-full"
                 >
                   <LogoutIcon />
                   Log out

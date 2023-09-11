@@ -3,11 +3,12 @@ import Header from "../components/header/Header";
 import ProductCard from "../components/sharedComponents/productCard/ProductCard";
 import { categories } from "../data/Categories";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChangeEvent } from "react";
 import { getCategoryAllProducts } from "../../services/categoryService";
 import { Product } from "../types/product";
 import { useQuery } from "@tanstack/react-query";
+import Layout from "../components/sharedComponents/layout/Layout";
 
 const SubCategory = () => {
   const { t } = useTranslation();
@@ -26,11 +27,8 @@ const SubCategory = () => {
     queryFn: () => getCategoryAllProducts(subCategory || "laptop", currentPage),
   });
 
-  console.log(laptopsQuery?.data?.data?.data);
-  console.log(subCategory);
-
   return (
-    <>
+    <Layout>
       <Header />
       <div className="pt-40 px-4 flex gap-4 items-start lg:flex-col">
         <div className="bg-red-60 w-[25%]  rounded shrink-0 lg:w-full">
@@ -91,7 +89,7 @@ const SubCategory = () => {
           <ProductCard /> */}
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

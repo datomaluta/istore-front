@@ -31,7 +31,7 @@ const useSignIn = (setSignInModalIsVisible: (arg: boolean) => void) => {
   const loginUserMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: () => {
-      setSuccessMessage("მომხმარებელი წარმატებით დარეგისტრირდა");
+      setSuccessMessage("მომხმარებელი წარმატებით დალოგინდა");
       setTimeout(() => {
         setSignInModalIsVisible(false);
         setSuccessMessage("");

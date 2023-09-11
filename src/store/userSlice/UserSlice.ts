@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface authorizedUserType {
+  authorizedUser: any;
+}
+
+const initialState: authorizedUserType = {
   authorizedUser: null,
 };
 

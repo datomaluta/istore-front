@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../components/sharedComponents/Loader";
 import { useEffect, useState } from "react";
 import Pagination from "../components/sharedComponents/pagination/Pagination";
+import Layout from "../components/sharedComponents/layout/Layout";
 
 const Computers = () => {
   const { pathname } = useLocation();
@@ -34,7 +35,7 @@ const Computers = () => {
   });
 
   return (
-    <>
+    <Layout>
       <Header />
 
       <div className="pt-40 px-4 flex gap-4 items-start lg:flex-col">
@@ -83,7 +84,7 @@ const Computers = () => {
           )}
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

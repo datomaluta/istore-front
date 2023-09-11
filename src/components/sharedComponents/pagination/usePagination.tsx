@@ -10,17 +10,17 @@ const usePagination = (
 
   const pageChangeHandler = (number: number) => {
     setCurrentPage(number);
-    navigate(`/computers/page/${number}`);
+    // navigate(`/computers/page/${number}`);
   };
 
   const nextPageHandler = () => {
     setCurrentPage((prevState: number) => +prevState + 1);
-    navigate(`/computers/page/${+currentPage + 1}`);
+    // navigate(`/computers/page/${+currentPage + 1}`);
   };
 
   const prevPageHandler = () => {
     setCurrentPage((prevState: number) => +prevState - 1);
-    navigate(`/computers/page/${+currentPage - 1}`);
+    // navigate(`/computers/page/${+currentPage - 1}`);
   };
 
   const items = [];
