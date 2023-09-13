@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import AdminLayout from "../../../components/admin/adminLayout/AdminLayout";
 import { useQuery } from "@tanstack/react-query";
 import { getCategoryAllProducts } from "../../../../services/categoryService";
@@ -8,9 +8,10 @@ import EditIcon from "../../../components/icons/EditIcon";
 import DeleteIcon from "../../../components/icons/DeleteIcon";
 import Pagination from "../../../components/sharedComponents/pagination/Pagination";
 import { Product } from "../../../types/product";
+import BagPlusIcon from "../../../components/icons/BagPlusIcon";
 
-const AdminComputers = () => {
-  const { subCategory, page } = useParams();
+const AdminSubCategory = () => {
+  const { category, subCategory, page } = useParams();
   const [currentPage, setCurrentPage] = useState(page || 1);
   const navigate = useNavigate();
 
@@ -26,11 +27,21 @@ const AdminComputers = () => {
   });
 
   useEffect(() => {
-    navigate(`/admin/computers/${subCategory}/${currentPage}`);
-  }, [currentPage, navigate, subCategory]);
+    navigate(`/admin/${category}/${subCategory}/${currentPage}`);
+  }, [currentPage, navigate, subCategory, category]);
 
   return (
     <AdminLayout>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="">{subCategory}</h1>
+        <Link
+          to="/admin/product/add"
+          className="bg-emerald-600 px-2 py-2 rounded-lg font-bpg flex gap-1 items-center"
+        >
+          <BagPlusIcon />
+          დამატება
+        </Link>
+      </div>
       <div className="w-full max-w-screen-lg mx-auto p-4 md:px-2 shadow-lg">
         <table className="min-w-full dark:bg-adminBgLightDark bg-white border-collapse border  rounded overflow-hidden">
           <thead className="">
@@ -89,4 +100,4 @@ const AdminComputers = () => {
   );
 };
 
-export default AdminComputers;
+export default AdminSubCategory;

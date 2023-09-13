@@ -9,7 +9,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getAuthenticatedUserInfo } from "../services/auth";
 import { saveAuthorizedUser } from "./store/userSlice/UserSlice";
 import CheckAuthAndAdmin from "./components/auth/checkAuthAndAdmin/CheckAuthAndAdmin";
-import AdminComputers from "./pages/admin/computers/AdminComputers";
+import AdminSubCategory from "./pages/admin/subCategory/AdminSubCategory";
+import AddProduct from "./pages/admin/addProduct/AddProduct";
 
 function App() {
   const { i18n } = useTranslation();
@@ -56,9 +57,10 @@ function App() {
         />
         <Route path="/admin/profile" element={<Dashboard />} />
         <Route
-          path="/admin/computers/:subCategory/:page"
-          element={<AdminComputers />}
+          path="/admin/:category/:subCategory/:page"
+          element={<AdminSubCategory />}
         />
+        <Route path="/admin/product/add" element={<AddProduct />} />
       </Routes>
     </div>
   );

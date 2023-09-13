@@ -6,3 +6,7 @@ export const getCategoryAllProducts = async (
 ) => {
   return await instance.get(`/api/${category}/allproducts?page=${page}`);
 };
+
+export const getAllCategories = async () => {
+  return await instance.get("/api/categories");
+};

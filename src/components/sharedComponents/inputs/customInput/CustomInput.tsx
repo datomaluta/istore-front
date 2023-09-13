@@ -17,7 +17,7 @@ const CustomInput = (props: CustomInputPropsType) => {
       <label className="block text-sm mb-1">{label}</label>
       <input
         {...register(
-          name as "name" | "email" | "password" | "confirm_password"
+          name as "name" | "email" | "password" | "confirm_password" | "brand"
         )}
         placeholder={placeholder}
         className="w-full bg-transparent border border-greyForBorder dark:border-greyforText px-2 py-2 
