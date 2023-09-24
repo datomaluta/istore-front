@@ -1,6 +1,6 @@
 import { useForm, useWatch } from "react-hook-form";
 
-import { FormValues, PropsType, customAxiosError } from "./types";
+import { FormValues, customAxiosError } from "./types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerFormValidationSchema } from "../../../../schemas/authSchema";
 import { registerUser } from "../../../../services/auth";

@@ -27,7 +27,7 @@ const AdminSubCategory = () => {
   });
 
   useEffect(() => {
-    navigate(`/admin/${category}/${subCategory}/${currentPage}`);
+    navigate(`/admin/${category}/${subCategory}/page/${currentPage}`);
   }, [currentPage, navigate, subCategory, category]);
 
   return (
@@ -36,7 +36,7 @@ const AdminSubCategory = () => {
         <h1 className="">{subCategory}</h1>
         <Link
           to="/admin/product/add"
-          className="bg-emerald-600 px-2 py-2 rounded-lg font-bpg flex gap-1 items-center"
+          className="bg-emerald-600 px-2 py-2 rounded-lg font-bpg flex gap-1 items-center text-white"
         >
           <BagPlusIcon />
           დამატება

@@ -57,7 +57,7 @@ function App() {
         />
         <Route path="/admin/profile" element={<Dashboard />} />
         <Route
-          path="/admin/:category/:subCategory/:page"
+          path="/admin/:category/:subCategory/page/:page"
           element={<AdminSubCategory />}
         />
         <Route path="/admin/product/add" element={<AddProduct />} />

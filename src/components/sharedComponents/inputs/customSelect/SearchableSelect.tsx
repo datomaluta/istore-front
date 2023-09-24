@@ -2,23 +2,18 @@ import Select from "react-select";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
 import { StylesConfig } from "react-select";
-import { useState } from "react";
 import { Controller } from "react-hook-form";
+import { PropsType } from "./types";
+import { useTranslation } from "react-i18next";
 
-const SearchableSelect = ({ control, name, options }) => {
-  // const [isClearable, setIsClearable] = useState(true);
-  // const [isSearchable, setIsSearchable] = useState(true);
-  // const [isDisabled, setIsDisabled] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [isRtl, setIsRtl] = useState(false);
+const SearchableSelect = ({
+  control,
+  name,
+  options,
+  frontError,
+}: PropsType) => {
+  const { t, i18n } = useTranslation();
   const theme = useSelector((state: RootState) => state.theme.theme);
-
-  const colourOptions = [
-    { value: "red", label: "Red" },
-    { value: "green", label: "Green" },
-    { value: "blue", label: "Blue" },
-  ];
-
   const categoryInputStyles: StylesConfig = {
     control: (provided) => ({
       ...provided,
@@ -26,6 +21,7 @@ const SearchableSelect = ({ control, name, options }) => {
       background: "transparent",
       borderRadius: "4px",
       padding: "2px",
+      marginBottom: "6px",
     }),
     input: (provided) => ({
       ...provided,
@@ -36,8 +32,8 @@ const SearchableSelect = ({ control, name, options }) => {
       color: state.isSelected ? "white" : "black",
       backgroundColor: state.isSelected ? "#24303F" : "white",
       "&:hover": {
-        backgroundColor: state.isSelected ? "#24303F" : "#f0f0f0", // Define hover background color
-        color: state.isSelected ? "white" : "black", // Define hover text color
+        backgroundColor: state.isSelected ? "#24303F" : "#f0f0f0",
+        color: state.isSelected ? "white" : "black",
       },
     }),
     singleValue: (provided) => ({
@@ -48,6 +44,13 @@ const SearchableSelect = ({ control, name, options }) => {
 
   return (
     <>
+      <label
+        className={`${
+          i18n.resolvedLanguage === "ka" && "font-arial"
+        } block text-sm mb-1`}
+      >
+        Product category
+      </label>
       <Controller
         name={name}
         control={control}
@@ -59,25 +62,11 @@ const SearchableSelect = ({ control, name, options }) => {
             isSearchable={true}
             options={options}
             styles={categoryInputStyles}
-            // value={selectedValue}
-            // onChange={(selectedOption: { value: string; label: string }) =>
-            //   setSelectedValue(selectedOption)
-            // }
           />
         )}
       />
-      {/* <Select
-        className="basic-single "
-        classNamePrefix="select"
-        defaultValue={colourOptions[0]}
-        isSearchable={true}
-        options={colourOptions}
-        styles={categoryInputStyles}
-        // value={selectedValue}
-        // onChange={(selectedOption: { value: string; label: string }) =>
-        //   setSelectedValue(selectedOption)
-        // }
-      /> */}
+
+      <p className="text-sm text-red-500  h-2 font-arial">{frontError}</p>
     </>
   );
 };

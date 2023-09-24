@@ -3,6 +3,7 @@ export const generalArray = [
   { name: "price", label: "Price", type: "number" },
   { name: "image", label: "Image", type: "file" },
   { name: "label", label: "Label", type: "text" },
+  { name: "stock", label: "Stock", type: "number" },
   { name: "category_id", label: "Category", type: "select" },
 ];
 
