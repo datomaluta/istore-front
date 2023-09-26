@@ -49,7 +49,7 @@ const SearchableSelect = ({
           i18n.resolvedLanguage === "ka" && "font-arial"
         } block text-sm mb-1`}
       >
-        Product category
+        {t("product_category")}
       </label>
       <Controller
         name={name}

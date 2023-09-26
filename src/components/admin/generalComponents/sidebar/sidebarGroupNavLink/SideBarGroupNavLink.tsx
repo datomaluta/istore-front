@@ -37,7 +37,11 @@ const SidebarGroupNavLink = ({
             }}
             className="pl-2  overflow-hidden"
           >
-            <SidebarNavLink href="/admin/computers/pc" label="PC" group={true}>
+            <SidebarNavLink
+              href="/admin/computers/pc/page/1"
+              label="PC"
+              group={true}
+            >
               <PcIcon />
             </SidebarNavLink>
             <SidebarNavLink

@@ -31,7 +31,7 @@ function App() {
   return (
     <div
       className={`bg-neutral-100 dark:bg-darkbg transition-all text-greyforText dark:text-gray-300 ${
-        i18n.resolvedLanguage === "ka" ? "font-bpg" : "font-sans"
+        i18n.resolvedLanguage === "ka" ? "font-arial" : "font-sans"
       } relative`}
     >
       <Routes>

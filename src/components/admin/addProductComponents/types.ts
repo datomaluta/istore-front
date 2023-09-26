@@ -12,3 +12,7 @@ export type FormValues = {
   category_id: { value: number; label: string };
   stock: number;
 };
+
+export type extraFieldType = { name: string; label: string; type: string };
+
+export type extraFieldsArrayType = Array<extraFieldType>;

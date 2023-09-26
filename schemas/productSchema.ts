@@ -29,10 +29,33 @@ export const productAddValidationSchema = Yup.object({
   stock: Yup.string().required("field_required"),
   label: Yup.string().required("field_required"),
   category_id: Yup.object().required("field_required"),
+  // cpu: Yup.string().required("field_required"),
+  // ram: Yup.string().required("field_required"),
+  // ssd: Yup.string().required("field_required"),
+  // hdd: Yup.string().required("field_required"),
+  // gpu: Yup.string().required("field_required"),
+  // motherboard: Yup.string().required("field_required"),
+  // model: Yup.string().required("field_required"),
+  // screen_size: Yup.string().required("field_required"),
+  // resolution: Yup.string().required("field_required"),
+});
+
+export const pcValidationSchema = Yup.object({
   cpu: Yup.string().required("field_required"),
   ram: Yup.string().required("field_required"),
   ssd: Yup.string().required("field_required"),
   hdd: Yup.string().required("field_required"),
   gpu: Yup.string().required("field_required"),
   motherboard: Yup.string().required("field_required"),
+});
+
+export const laptopAndAllInOneValidationSchema = Yup.object({
+  cpu: Yup.string().required("field_required"),
+  ram: Yup.string().required("field_required"),
+  ssd: Yup.string().required("field_required"),
+  hdd: Yup.string().required("field_required"),
+  gpu: Yup.string().required("field_required"),
+  model: Yup.string().required("field_required"),
+  screen_size: Yup.string().required("field_required"),
+  resolution: Yup.string().required("field_required"),
 });

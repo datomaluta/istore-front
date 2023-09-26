@@ -7,9 +7,15 @@ import LogoutIcon from "../../../icons/LogoutIcon";
 import avatar from "../../../../assets/images/avatar.webp";
 import { PropsType } from "./types";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import geoFlag from "../../../../assets/images/geo.png";
+import usaFlag from "../../../../assets/images/usa.png";
 
 const AdminHeader = ({ setSidebarVisible }: PropsType) => {
   const [userDropDownVisible, setUserDropDownVisible] = useState(false);
+  const { t, i18n } = useTranslation();
+
+  const lngs = ["en", "ka"];
   return (
     <header
       className=" flex items-center py-4 px-4 bg-white dark:bg-adminBgLightDark shadow-lg 
@@ -23,6 +29,27 @@ const AdminHeader = ({ setSidebarVisible }: PropsType) => {
           <BurgerIcon />
         </button>
         <Theme />
+        {lngs.map((lng) => (
+          <button
+            type="submit"
+            key={lng}
+            onClick={() => i18n.changeLanguage(lng)}
+            disabled={i18n.resolvedLanguage === lng}
+            className={`w-8 sm:w-7 h-8 sm:h-7 ${
+              i18n.resolvedLanguage === lng ? "hidden" : "block"
+            } overflow-hidden`}
+          >
+            <img
+              src={lng === "ka" ? usaFlag : geoFlag}
+              alt="locale"
+              className={`w-full h-full object-cover overflow-hidden  ${
+                lng === "ka"
+                  ? "animate-smoothFallFromBottom"
+                  : "animate-smoothFallFromTop"
+              }`}
+            />
+          </button>
+        ))}
       </div>
       <button
         onClick={() => setUserDropDownVisible((prev) => !prev)}
