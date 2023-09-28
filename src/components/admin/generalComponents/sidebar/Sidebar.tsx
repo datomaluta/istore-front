@@ -7,6 +7,7 @@ import SidebarGroupNavLink from "./sidebarGroupNavLink/SideBarGroupNavLink";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 import LeftArrowIcon from "../../../icons/LeftArrowIcon";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = ({
   sidebarVisible,
@@ -15,6 +16,7 @@ const Sidebar = ({
   sidebarVisible: boolean;
   setSidebarVisible: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const { t } = useTranslation();
   const {
     categoryIsClicked: compsCategoryIsClicked,
     categoryClickHandler: compsCategoryClickHandler,
@@ -44,11 +46,14 @@ const Sidebar = ({
             <div className="mt-10">
               <nav>
                 <ul className="flex flex-col gap-3">
-                  <SidebarNavLink href="/admin/dashboard" label="Dashboard">
+                  <SidebarNavLink
+                    href="/admin/dashboard"
+                    label={t("dashboard")}
+                  >
                     <DashboardIcon />
                   </SidebarNavLink>
 
-                  <SidebarNavLink href="/admin/profile" label="Profile">
+                  <SidebarNavLink href="/admin/profile" label={t("profile")}>
                     <ProfileIcon />
                   </SidebarNavLink>
 

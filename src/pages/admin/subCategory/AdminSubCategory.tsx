@@ -9,11 +9,13 @@ import DeleteIcon from "../../../components/icons/DeleteIcon";
 import Pagination from "../../../components/sharedComponents/pagination/Pagination";
 import { Product } from "../../../types/product";
 import BagPlusIcon from "../../../components/icons/BagPlusIcon";
+import { useTranslation } from "react-i18next";
 
 const AdminSubCategory = () => {
   const { category, subCategory, page } = useParams();
   const [currentPage, setCurrentPage] = useState(page || 1);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { data: productsQuery } = useQuery({
     queryKey: ["subCategory", currentPage],
@@ -39,21 +41,21 @@ const AdminSubCategory = () => {
           className="bg-emerald-600 px-2 py-2 rounded-lg font-bpg flex gap-1 items-center text-white"
         >
           <BagPlusIcon />
-          დამატება
+          {t("add")}
         </Link>
       </div>
       <div className="w-full max-w-screen-lg mx-auto p-4 md:px-2 shadow-lg">
         <table className="min-w-full dark:bg-adminBgLightDark bg-white border-collapse border  rounded overflow-hidden">
           <thead className="">
             <tr>
-              <th className="px-6 md:px-2 py-3  bg-adminBgDark text-left text-xs leading-4 font-medium text-gray-300 uppercase tracking-wider">
-                Image
+              <th className="px-6 md:px-2 py-3 font-arial  bg-adminBgDark text-left text-xs leading-4 font-medium text-gray-300 uppercase tracking-wider">
+                {t("image")}
               </th>
               <th className="px-6 v py-3  bg-adminBgDark text-left text-xs leading-4 font-medium text-gray-300 uppercase tracking-wider">
-                Name
+                {t("name")}
               </th>
               <th className="px-6 md:px-2 py-3 md:hidden  bg-adminBgDark text-left text-xs leading-4 font-medium text-gray-300 uppercase tracking-wider">
-                Stock
+                {t("stock")}
               </th>
               <th className="px-6 md:px-2 py-3  bg-adminBgDark text-left text-xs leading-4 font-medium text-gray-300 uppercase tracking-wider"></th>
             </tr>
@@ -67,7 +69,7 @@ const AdminSubCategory = () => {
                       product?.image
                     }`}
                     alt="Image Alt Text"
-                    className="h-10 w-10 rounded-full"
+                    className="h-10 w-10 rounded-full object-cover"
                   />
                 </td>
                 <td className="px-6 md:px-2 md:text-xs py-4 whitespace-no-wrap border-b border-gray-300">

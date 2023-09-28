@@ -31,9 +31,7 @@ const AddProductForm = () => {
     useState<extraFieldsArrayType>([]);
 
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
-
-  console.log(i18n.resolvedLanguage);
+  const { t } = useTranslation();
 
   const getValidationSchema = (selectedCategory: string) => {
     switch (selectedCategory) {

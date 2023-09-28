@@ -7,11 +7,13 @@ import PcIcon from "../../../../icons/PcIcon";
 import { PropsType } from "./types";
 import LaptopIcon from "../../../../icons/LaptopIcon";
 import AllInOneIcon from "../../../../icons/AllInOneIcon";
+import { useTranslation } from "react-i18next";
 
 const SidebarGroupNavLink = ({
   categoryClicked,
   categoryClickHandler,
 }: PropsType) => {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
   return (
     <div className="">
@@ -23,7 +25,7 @@ const SidebarGroupNavLink = ({
       >
         <span className="flex gap-3 items-center">
           <CategoryIcon />
-          Computers
+          {t("comps")}
         </span>
         <DownUpArrowIcon open={categoryClicked} />
       </button>
@@ -39,21 +41,21 @@ const SidebarGroupNavLink = ({
           >
             <SidebarNavLink
               href="/admin/computers/pc/page/1"
-              label="PC"
+              label={t("pc")}
               group={true}
             >
               <PcIcon />
             </SidebarNavLink>
             <SidebarNavLink
               href="/admin/computers/laptop"
-              label="Laptop"
+              label={t("laptop")}
               group={true}
             >
               <LaptopIcon />
             </SidebarNavLink>
             <SidebarNavLink
               href="/admin/computers/allinone"
-              label="All in one"
+              label={t("all_in_one")}
               group={true}
             >
               <AllInOneIcon />
