@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AdminLayout from "../../../components/admin/adminLayout/AdminLayout";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCategoryAllProducts } from "../../../../services/categoryService";
 import { useEffect, useState } from "react";
 import { truncateText } from "../../../helpers/TextTrimmer";
@@ -10,6 +10,8 @@ import Pagination from "../../../components/sharedComponents/pagination/Paginati
 import { Product } from "../../../types/product";
 import BagPlusIcon from "../../../components/icons/BagPlusIcon";
 import { useTranslation } from "react-i18next";
+import { deleteProduct } from "../../../../services/product";
+import { customAxiosError } from "../../../components/auth/signUp/types";
 
 const AdminSubCategory = () => {
   const { category, subCategory, page } = useParams();
@@ -31,6 +33,26 @@ const AdminSubCategory = () => {
   useEffect(() => {
     navigate(`/admin/${category}/${subCategory}/page/${currentPage}`);
   }, [currentPage, navigate, subCategory, category]);
+
+  const editHandler = (id: number) => {
+    console.log(id);
+    navigate(`/admin/product/${id}/edit`);
+  };
+
+  const deleteProductMutation = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      // setSuccessMessage("პროდუქტი წარმატებით წაიშალა");
+      // setTimeout(() => {
+      //   setSuccessMessage("");
+      //   // navigate(`/admin/computers/pc/page/1`);
+      // }, 1500);
+      // queryClient.invalidateQueries(["userInfo"]);
+    },
+    onError: (error: customAxiosError) => {
+      console.log(error);
+    },
+  });
 
   return (
     <AdminLayout>
@@ -80,10 +102,16 @@ const AdminSubCategory = () => {
                 </td>
                 <td className="px-6 md:px-2 py-4 whitespace-no-wrap border-b border-gray-300">
                   <div className="flex gap-3 justify-end">
-                    <button className="border p-1 rounded-full border-green-500">
+                    <button
+                      onClick={() => editHandler(product.id)}
+                      className="border p-1 rounded-full border-green-500"
+                    >
                       <EditIcon />
                     </button>
-                    <button className="border p-1 rounded-full border-red-500">
+                    <button
+                      onClick={() => deleteProductMutation.mutate(product.id)}
+                      className="border p-1 rounded-full border-red-500"
+                    >
                       <DeleteIcon />
                     </button>
                   </div>

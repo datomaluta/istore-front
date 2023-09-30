@@ -1,3 +1,7 @@
+export type PropsType = {
+  edit: boolean;
+};
+
 export type ProductType = {
   id: number;
   name: string;

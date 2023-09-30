@@ -8,23 +8,37 @@ import {
 } from "../../../data/StaticAddProductFormArray";
 import SearchableSelect from "../../sharedComponents/inputs/customSelect/SearchableSelect";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getAllCategories } from "../../../../services/categoryService";
+import {
+  getAllCategories,
+  getCategoryById,
+} from "../../../../services/categoryService";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   productAddValidationSchema,
+  producEditValidationSchema,
   pcValidationSchema,
   laptopAndAllInOneValidationSchema,
 } from "../../../../schemas/productSchema";
-import { ProductType, extraFieldType, extraFieldsArrayType } from "./types";
-import { addProduct } from "../../../../services/product";
+import {
+  ProductType,
+  PropsType,
+  extraFieldType,
+  extraFieldsArrayType,
+} from "./types";
+import {
+  addProduct,
+  deleteProduct,
+  editProduct,
+  getProductById,
+} from "../../../../services/product";
 import { customAxiosError } from "../../auth/signUp/types";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Alert from "../../sharedComponents/alert/Alert";
 import { isObjectEmpty } from "../../../helpers/isObjectEmpty";
 import * as yup from "yup";
 
-const AddProductForm = () => {
+const AddProductForm = ({ edit }: PropsType) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [extraFieldsBasedOnCategory, setExtraFieldsBasedOnCategory] =
@@ -32,6 +46,7 @@ const AddProductForm = () => {
 
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { id } = useParams();
 
   const getValidationSchema = (selectedCategory: string) => {
     switch (selectedCategory) {
@@ -45,8 +60,15 @@ const AddProductForm = () => {
         return productAddValidationSchema; // Use the general schema as the default
     }
   };
+  const getCreateOrEditValidationSchema = () => {
+    if (edit) {
+      return producEditValidationSchema.fields;
+    } else {
+      return productAddValidationSchema.fields;
+    }
+  };
   const combinedSchema = yup.object().shape({
-    ...productAddValidationSchema.fields, // Include the fields from the general schema
+    ...getCreateOrEditValidationSchema(), // Include the fields from the general schema
     ...getValidationSchema(selectedCategory).fields, // Include the fields from the category-specific schema
   });
 
@@ -55,6 +77,7 @@ const AddProductForm = () => {
     formState: { errors },
     control,
     handleSubmit,
+    setValue,
   } = useForm({
     resolver: yupResolver(combinedSchema),
   });
@@ -84,23 +107,64 @@ const AddProductForm = () => {
     },
   });
 
+  const editProductMutation = useMutation({
+    mutationFn: editProduct,
+    onSuccess: () => {
+      setSuccessMessage("პროდუქტი წარმატებით განახლდა");
+      setTimeout(() => {
+        setSuccessMessage("");
+        // navigate(`/admin/computers/pc/page/1`);
+      }, 1500);
+
+      // queryClient.invalidateQueries(["userInfo"]);
+    },
+    onError: (error: customAxiosError) => {
+      console.log(error);
+    },
+  });
+
   const formData = new FormData();
 
   const submitHandler = (data: any) => {
-    const requestData = {
-      ...data,
-      image: data.image[0],
-      category_id: data.category_id.value,
-    };
-    generalArray.forEach((item) => {
-      formData.append(item.name, requestData[item.name]);
-    });
+    if (edit) {
+      console.log("edit mode");
 
-    extraFieldsBasedOnCategory.forEach((item) => {
-      formData.append(item.name, requestData[item.name]);
-    });
+      const requestData = {
+        ...data,
+        image: data.image ? data.image[0] : "",
+        category_id: data.category_id.value,
+      };
+      console.log(requestData);
+      formData.append("_method", "PUT");
+      generalArray.forEach((item) => {
+        if (item.name === "image") {
+          if (!requestData.image || requestData?.image?.length === 0) return;
+        }
+        formData.append(item.name, requestData[item.name]);
+      });
 
-    addProductMutation.mutate(formData);
+      extraFieldsBasedOnCategory.forEach((item) => {
+        formData.append(item.name, requestData[item.name]);
+      });
+
+      editProductMutation.mutate({ data: formData, id: id });
+    } else {
+      const requestData = {
+        ...data,
+        image: data.image[0],
+        category_id: data.category_id.value,
+      };
+
+      generalArray.forEach((item) => {
+        formData.append(item.name, requestData[item.name]);
+      });
+
+      extraFieldsBasedOnCategory.forEach((item) => {
+        formData.append(item.name, requestData[item.name]);
+      });
+
+      addProductMutation.mutate(formData);
+    }
   };
 
   const category: { label: string; value: number } = useWatch({
@@ -124,6 +188,55 @@ const AddProductForm = () => {
         break;
     }
   }, [category]);
+
+  const { data: productData, isLoading } = useQuery({
+    queryKey: ["productData"],
+    queryFn: () => getProductById(id),
+    enabled: edit,
+    onSuccess: (data) => {
+      // dispatch(saveAuthorizedUser(data.data));
+      // console.log(data);
+    },
+    onError: () => {
+      // dispatch(saveAuthorizedUser(false));
+    },
+  });
+
+  const { data: categoryData } = useQuery({
+    queryKey: ["categoryData"],
+    queryFn: () => getCategoryById(productData?.data.category_id),
+    enabled: !!productData,
+  });
+
+  useEffect(() => {
+    if (edit && productData?.data && categoryData) {
+      generalArray.forEach((item: any) => {
+        if (item.name === "category_id") {
+          setValue("category_id", {
+            value: productData.data.category_id,
+            label: categoryData.data.name,
+          });
+        } else if (item.name === "image") {
+          return;
+        } else {
+          setValue(item.name, productData.data[item.name]);
+        }
+      });
+      extraFieldsBasedOnCategory.forEach((item: any) => {
+        setValue(item.name, productData.data[category.label][item.name]);
+      });
+    }
+  }, [
+    edit,
+    setValue,
+    productData,
+    categoryData,
+    category?.label,
+    extraFieldsBasedOnCategory,
+  ]);
+
+  // console.log(productData?.data);
+  // console.log(categoryData?.data);
 
   return (
     <>

@@ -61,6 +61,7 @@ function App() {
           element={<AdminSubCategory />}
         />
         <Route path="/admin/product/add" element={<AddProduct />} />
+        <Route path="/admin/product/:id/edit" element={<AddProduct />} />
       </Routes>
     </div>
   );
