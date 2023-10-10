@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AdminLayout from "../../../components/admin/adminLayout/AdminLayout";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCategoryAllProducts } from "../../../../services/categoryService";
 import { useEffect, useState } from "react";
 import { truncateText } from "../../../helpers/TextTrimmer";
@@ -18,6 +18,7 @@ const AdminSubCategory = () => {
   const [currentPage, setCurrentPage] = useState(page || 1);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
 
   const { data: productsQuery } = useQuery({
     queryKey: ["subCategory", currentPage],
@@ -47,7 +48,7 @@ const AdminSubCategory = () => {
       //   setSuccessMessage("");
       //   // navigate(`/admin/computers/pc/page/1`);
       // }, 1500);
-      // queryClient.invalidateQueries(["userInfo"]);
+      queryClient.invalidateQueries(["subCategory", currentPage]);
     },
     onError: (error: customAxiosError) => {
       console.log(error);
