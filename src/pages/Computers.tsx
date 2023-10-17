@@ -15,14 +15,7 @@ const Computers = () => {
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const { page } = useParams();
-  const [itsTime, setItsTime] = useState(false);
   const [currentPage, setCurrentPage] = useState(page || 1);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setItsTime(true);
-    }, 2000);
-  }, []);
 
   useEffect(() => {
     if (page) setCurrentPage(page);
@@ -31,7 +24,6 @@ const Computers = () => {
   const { isLoading, data: computersQuery } = useQuery({
     queryKey: ["computers", currentPage],
     queryFn: () => getCategoryAllProducts("computers", currentPage),
-    enabled: itsTime,
   });
 
   return (
@@ -41,7 +33,7 @@ const Computers = () => {
       <div className="pt-40 px-4 flex gap-4 items-start lg:flex-col">
         <div className="bg-red-60 w-[25%] border border-greyForBorder dark:border-greyforText rounded shrink-0 lg:w-full">
           <p className="text-lg px-2 py-2 text-primary font-bold">
-            Computers Subcategories
+            {t("computers_subcategories")}
           </p>
           <ul className="flex flex-col">
             {categories

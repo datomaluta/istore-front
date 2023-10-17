@@ -11,6 +11,7 @@ import { saveAuthorizedUser } from "./store/userSlice/UserSlice";
 import CheckAuthAndAdmin from "./components/auth/checkAuthAndAdmin/CheckAuthAndAdmin";
 import AdminSubCategory from "./pages/admin/subCategory/AdminSubCategory";
 import AddProduct from "./pages/admin/addProduct/AddProduct";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   const { i18n } = useTranslation();
@@ -45,6 +46,8 @@ function App() {
           path="/computers/:subCategory/page/:page"
           element={<SubCategory />}
         />
+
+        <Route path="/product/:category/:id" element={<ProductDetails />} />
 
         {/* admin */}
         <Route

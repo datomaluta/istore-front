@@ -34,7 +34,7 @@ const SubCategory = () => {
         <div className="bg-red-60 w-[25%]  rounded shrink-0 lg:w-full">
           <div className="border border-neutral-500 rounded">
             <p className="text-lg px-2 py-2 text-primary font-bold">
-              Subcategories
+              {t("computers_subcategories")}
             </p>
             <ul className="flex flex-col">
               {categories
