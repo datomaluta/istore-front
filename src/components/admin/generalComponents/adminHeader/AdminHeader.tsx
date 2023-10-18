@@ -19,7 +19,7 @@ const AdminHeader = ({ setSidebarVisible }: PropsType) => {
   return (
     <header
       className=" flex items-center py-4 px-4 bg-white dark:bg-adminBgLightDark shadow-lg 
-    justify-between fixed top-0 left-0 w-full pl-72 lg:pl-4"
+    justify-between fixed top-0 left-0 w-full pl-72 lg:pl-4 z-50"
     >
       <div className="flex gap-2 ml-4 lg:ml-0 items-center">
         <button

@@ -1,54 +1,23 @@
-import { useTranslation } from "react-i18next";
 import Header from "../components/header/Header";
 import Layout from "../components/sharedComponents/layout/Layout";
 import BasketIcon from "../components/icons/BasketIcon";
-import {
-  generalArray,
-  laptopAndAllInOneArray,
-  pcArray,
-} from "../data/StaticAddProductFormArray";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getProductById } from "../../services/product";
-import { useEffect, useState } from "react";
+import { generalArray } from "../data/StaticAddProductFormArray";
 import Loader from "../components/sharedComponents/Loader";
 import { motion } from "framer-motion";
 import NotFoundComponent from "../components/sharedComponents/notFoundComponent/NotFoundComponent";
-
-type extraFieldType = { name: string; label: string; type: string };
-
-type extraFieldsArrayType = Array<extraFieldType>;
+import useProductDetails from "../hooks/productDetailsHooks/useProductdetails";
 
 const ProductDetails = () => {
-  let count = 0; // for different color of prop
-
-  const { t } = useTranslation();
-  const { id, category = 1 } = useParams();
-  const [extraFieldsBasedOnCategory, setExtraFieldsBasedOnCategory] =
-    useState<extraFieldsArrayType>([]);
-
   const {
-    data: productDetailsResponse,
+    productDetailsResponse,
     isLoading,
     isError,
-  } = useQuery({
-    queryKey: ["product", category, id],
-    queryFn: async () => await getProductById(id),
-  });
+    t,
+    extraFieldsBasedOnCategory,
+    category,
+  } = useProductDetails();
 
-  useEffect(() => {
-    switch (category) {
-      case "pc":
-        setExtraFieldsBasedOnCategory(pcArray);
-        break;
-      case "laptop":
-        setExtraFieldsBasedOnCategory(laptopAndAllInOneArray);
-        break;
-      case "all_in_one":
-        setExtraFieldsBasedOnCategory(laptopAndAllInOneArray);
-        break;
-    }
-  }, [category]);
+  let count = 0;
 
   return (
     <Layout>

@@ -30,7 +30,7 @@ const Computers = () => {
     <Layout>
       <Header />
 
-      <div className="pt-40 px-4 flex gap-4 items-start lg:flex-col">
+      <div className="pt-40 px-4 pb-12 flex gap-4 items-start lg:flex-col">
         <div className="bg-red-60 w-[25%] border border-greyForBorder dark:border-greyforText rounded shrink-0 lg:w-full">
           <p className="text-lg px-2 py-2 text-primary font-bold">
             {t("computers_subcategories")}
@@ -54,9 +54,9 @@ const Computers = () => {
               ))}
           </ul>
         </div>
-        <div className=" w-full">
+        <div className=" w-full min-h-scree flex flex-col justify-between">
           <div
-            className={`bg-blue-5 grid gap-x-4 gap-y-8 grid-cols-3
+            className={`bg-blue-5 grid gap-x-4 gap-y-8 grid-cols-3 
             justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 relative ${
               isLoading && "min-h-[30rem]"
             }`}

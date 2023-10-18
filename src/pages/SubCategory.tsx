@@ -3,12 +3,14 @@ import Header from "../components/header/Header";
 import ProductCard from "../components/sharedComponents/productCard/ProductCard";
 import { categories } from "../data/Categories";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChangeEvent } from "react";
 import { getCategoryAllProducts } from "../../services/categoryService";
 import { Product } from "../types/product";
 import { useQuery } from "@tanstack/react-query";
 import Layout from "../components/sharedComponents/layout/Layout";
+import Pagination from "../components/sharedComponents/pagination/Pagination";
+import Loader from "../components/sharedComponents/Loader";
 
 const SubCategory = () => {
   const { t } = useTranslation();
@@ -18,11 +20,14 @@ const SubCategory = () => {
   const { pathname } = useLocation();
   const [currentPage, setCurrentPage] = useState(page || 1);
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.value);
     setPrice(+e.target.value);
   };
 
-  const laptopsQuery = useQuery({
+  useEffect(() => {
+    if (page) setCurrentPage(page);
+  }, [page]);
+
+  const { data: subCategoryQuery, isLoading } = useQuery({
     queryKey: ["subCategory", subCategory, currentPage],
     queryFn: () => getCategoryAllProducts(subCategory || "laptop", currentPage),
   });
@@ -30,7 +35,7 @@ const SubCategory = () => {
   return (
     <Layout>
       <Header />
-      <div className="pt-40 px-4 flex gap-4 items-start lg:flex-col">
+      <div className="pt-40 pb-12 px-4 flex gap-4 items-start lg:flex-col">
         <div className="bg-red-60 w-[25%]  rounded shrink-0 lg:w-full">
           <div className="border border-neutral-500 rounded">
             <p className="text-lg px-2 py-2 text-primary font-bold">
@@ -73,20 +78,26 @@ const SubCategory = () => {
           </div>
         </div>
 
-        {laptopsQuery?.isLoading && <p>Loading...</p>}
+        <div className="w-full flex flex-col justify-between">
+          <div
+            className={`flex-grow grid gap-x-4 gap-y-8 grid-cols-3
+         justify-items-center relative lg:w-full md:grid-cols-2 sm:grid-cols-1  ${
+           isLoading && "min-h-[30rem]"
+         }`}
+          >
+            {isLoading && <Loader />}
+            {subCategoryQuery?.data?.data?.map((product: Product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
 
-        <div
-          className="bg-blue-5 flex-grow grid gap-x-2 gap-y-8 grid-cols-3
-         justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 "
-        >
-          {laptopsQuery?.data?.data?.data?.map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-          {/* <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard /> */}
+          {subCategoryQuery?.data?.data && (
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              total={subCategoryQuery?.data?.last_page}
+            />
+          )}
         </div>
       </div>
     </Layout>
