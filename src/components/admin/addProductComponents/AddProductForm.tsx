@@ -37,6 +37,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import Alert from "../../sharedComponents/alert/Alert";
 import { isObjectEmpty } from "../../../helpers/isObjectEmpty";
 import * as yup from "yup";
+import Loader from "../../sharedComponents/Loader";
+import LoadingSpinner from "../../sharedComponents/loadingSpinner/LoadingSpinner";
+import LoaderDots from "../../sharedComponents/LoaderDots";
+import { AnimatePresence } from "framer-motion";
 
 const AddProductForm = ({ edit }: PropsType) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -97,7 +101,7 @@ const AddProductForm = ({ edit }: PropsType) => {
       setSuccessMessage("პროდუქტი წარმატებით დაემატა");
       setTimeout(() => {
         setSuccessMessage("");
-        navigate(`/admin/computers/pc/page/1`);
+        // navigate(`/admin/computers/pc/page/1`);
       }, 1500);
 
       // queryClient.invalidateQueries(["userInfo"]);
@@ -113,8 +117,11 @@ const AddProductForm = ({ edit }: PropsType) => {
       setSuccessMessage("პროდუქტი წარმატებით განახლდა");
       setTimeout(() => {
         setSuccessMessage("");
-        // navigate(`/admin/computers/pc/page/1`);
       }, 1500);
+
+      setTimeout(() => {
+        navigate(`/admin/computers/pc/page/1`);
+      }, 2000);
 
       // queryClient.invalidateQueries(["userInfo"]);
     },
@@ -189,18 +196,20 @@ const AddProductForm = ({ edit }: PropsType) => {
     }
   }, [category]);
 
-  const { data: productData, isLoading } = useQuery({
-    queryKey: ["productData"],
-    queryFn: () => getProductById(id),
-    enabled: edit,
-    onSuccess: (data) => {
-      // dispatch(saveAuthorizedUser(data.data));
-      // console.log(data);
-    },
-    onError: () => {
-      // dispatch(saveAuthorizedUser(false));
-    },
-  });
+  const { data: productData, isLoading: fetchingProductDataLoading } = useQuery(
+    {
+      queryKey: ["productData"],
+      queryFn: () => getProductById(id),
+      enabled: edit,
+      onSuccess: (data) => {
+        // dispatch(saveAuthorizedUser(data.data));
+        // console.log(data);
+      },
+      onError: () => {
+        // dispatch(saveAuthorizedUser(false));
+      },
+    }
+  );
 
   const { data: categoryData } = useQuery({
     queryKey: ["categoryData"],
@@ -241,57 +250,64 @@ const AddProductForm = ({ edit }: PropsType) => {
   return (
     <>
       <Alert message={successMessage} />
-      <form onSubmit={handleSubmit(submitHandler)}>
-        {generalArray.map((item) => {
-          if (item.type === "select") {
+
+      {fetchingProductDataLoading && edit ? (
+        <Loader />
+      ) : (
+        <form onSubmit={handleSubmit(submitHandler)}>
+          {generalArray.map((item) => {
+            if (item.type === "select") {
+              return (
+                <SearchableSelect
+                  key={item.name}
+                  control={control}
+                  name={"category_id"}
+                  options={optionsForCategories}
+                  frontError={t(
+                    errors[item.name as keyof typeof errors]?.message || ""
+                  )}
+                />
+              );
+            }
             return (
-              <SearchableSelect
+              <CustomInput
                 key={item.name}
-                control={control}
-                name={"category_id"}
-                options={optionsForCategories}
+                register={register}
+                name={item.name}
+                label={t(item.name)}
+                placeholder={t("")}
+                type={item.type}
+                // frontError={t(errors[item.name]?.message || "")}
                 frontError={t(
                   errors[item.name as keyof typeof errors]?.message || ""
                 )}
               />
             );
-          }
-          return (
+          })}
+          {extraFieldsBasedOnCategory.map((item: extraFieldType) => (
             <CustomInput
               key={item.name}
               register={register}
               name={item.name}
-              label={t(item.name)}
+              label={t(item.label)}
               placeholder={t("")}
               type={item.type}
-              // frontError={t(errors[item.name]?.message || "")}
               frontError={t(
                 errors[item.name as keyof typeof errors]?.message || ""
               )}
             />
-          );
-        })}
-        {extraFieldsBasedOnCategory.map((item: extraFieldType) => (
-          <CustomInput
-            key={item.name}
-            register={register}
-            name={item.name}
-            label={t(item.label)}
-            placeholder={t("")}
-            type={item.type}
-            frontError={t(
-              errors[item.name as keyof typeof errors]?.message || ""
-            )}
-          />
-        ))}
+          ))}
 
-        <button
-          disabled={!isObjectEmpty(errors)}
-          className="bg-primary w-full block mt-10 py-3 rounded-lg text-white disabled:bg-tint disabled:text-gray-400"
-        >
-          {t("add")}
-        </button>
-      </form>
+          <button
+            disabled={!isObjectEmpty(errors)}
+            className="bg-primary hover:bg-blue-500 active:translate-y-1 active:bg-blue-700
+            active:shadow-lg transition-all w-full  mt-10 py-3 h-12 rounded-lg text-white disabled:bg-tint
+              disabled:text-gray-400 flex justify-center"
+          >
+            {editProductMutation.isLoading ? <LoaderDots /> : t("add")}
+          </button>
+        </form>
+      )}
     </>
   );
 };

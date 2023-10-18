@@ -10,13 +10,14 @@ export const addProduct = async (data) => {
 
 export const getProductById = async (id) => {
   // Simulate a 3-second loading delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   // Perform the actual API call
   return await instance.get(`/api/product/${id}`);
 };
 
 export const editProduct = async (data) => {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   return await instance.post(`/api/product/${data.id}`, data.data);
 };
 

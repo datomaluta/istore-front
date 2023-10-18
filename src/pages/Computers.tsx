@@ -26,6 +26,8 @@ const Computers = () => {
     queryFn: () => getCategoryAllProducts("computers", currentPage),
   });
 
+  console.log(currentPage);
+
   return (
     <Layout>
       <Header />

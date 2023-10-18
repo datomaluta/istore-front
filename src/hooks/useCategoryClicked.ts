@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const useCategoryClicked = () => {
-  const [categoryIsClicked, setCategoryIsClicked] = useState(false);
+  const [categoryIsClicked, setCategoryIsClicked] = useState(true);
 
   const categoryClickHandler = () => {
     setCategoryIsClicked((currState) => !currState);

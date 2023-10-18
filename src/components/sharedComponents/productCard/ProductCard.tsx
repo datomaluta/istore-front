@@ -45,8 +45,12 @@ const ProductCard = ({ product }: ProductCardPropsType) => {
             />
           </div>
           <div className="flex flex-col gap-4">
-            <p className="h-12 mt-4">{truncateText(product?.label, 50)}</p>
-            <p className="font-bold text-lg text-right">{product?.price}$</p>
+            <p className="h-12 mt-4 font-sans">
+              {truncateText(product?.label, 50)}
+            </p>
+            <p className="font-bold text-lg text-right font-sans">
+              {product?.price}$
+            </p>
           </div>
         </Link>
       )}

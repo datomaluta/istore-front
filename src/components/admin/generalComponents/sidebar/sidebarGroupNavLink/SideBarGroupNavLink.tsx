@@ -47,14 +47,14 @@ const SidebarGroupNavLink = ({
               <PcIcon />
             </SidebarNavLink>
             <SidebarNavLink
-              href="/admin/computers/laptop"
+              href="/admin/computers/laptop/page/1"
               label={t("laptop")}
               group={true}
             >
               <LaptopIcon />
             </SidebarNavLink>
             <SidebarNavLink
-              href="/admin/computers/allinone"
+              href="/admin/computers/all_in_one/page/1"
               label={t("all_in_one")}
               group={true}
             >

@@ -12,16 +12,19 @@ import BagPlusIcon from "../../../components/icons/BagPlusIcon";
 import { useTranslation } from "react-i18next";
 import { deleteProduct } from "../../../../services/product";
 import { customAxiosError } from "../../../components/auth/signUp/types";
+import Loader from "../../../components/sharedComponents/Loader";
+import Alert from "../../../components/sharedComponents/alert/Alert";
 
 const AdminSubCategory = () => {
   const { category, subCategory, page } = useParams();
   const [currentPage, setCurrentPage] = useState(page || 1);
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
-  const { data: productsQuery } = useQuery({
-    queryKey: ["subCategory", currentPage],
+  const { data: productsQuery, isLoading } = useQuery({
+    queryKey: [category, subCategory, currentPage],
     queryFn: () => getCategoryAllProducts(subCategory || "pc", currentPage),
     // onSuccess: (data) => {
     //   dispatch(saveAuthorizedUser(data.data));
@@ -43,12 +46,12 @@ const AdminSubCategory = () => {
   const deleteProductMutation = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
-      // setSuccessMessage("პროდუქტი წარმატებით წაიშალა");
-      // setTimeout(() => {
-      //   setSuccessMessage("");
-      //   // navigate(`/admin/computers/pc/page/1`);
-      // }, 1500);
-      queryClient.invalidateQueries(["subCategory", currentPage]);
+      setSuccessMessage("პროდუქტი წარმატებით წაიშალა");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 1500);
+
+      queryClient.invalidateQueries([category, subCategory, currentPage]);
     },
     onError: (error: customAxiosError) => {
       console.log(error);
@@ -57,17 +60,19 @@ const AdminSubCategory = () => {
 
   return (
     <AdminLayout>
+      <Alert message={successMessage} />
       <div className="flex justify-between items-center mb-4">
         <h1 className="">{subCategory}</h1>
         <Link
           to="/admin/product/add"
-          className="bg-emerald-600 px-2 py-2 rounded-lg font-bpg flex gap-1 items-center text-white"
+          className="bg-emerald-600 px-4 py-2 rounded-lg font-bpg flex gap-1 items-center text-white"
         >
           <BagPlusIcon />
           {t("add")}
         </Link>
       </div>
-      <div className="w-full max-w-screen-lg mx-auto p-4 md:px-2 shadow-lg">
+      <div className="w-full max-w-screen-lg min-h-[40rem] mx-auto p-4 md:px-2 shadow-lg flex flex-col justify-between ">
+        {isLoading && <Loader />}
         <table className="min-w-full dark:bg-adminBgLightDark bg-white border-collapse border  rounded overflow-hidden">
           <thead className="">
             <tr>
@@ -121,11 +126,13 @@ const AdminSubCategory = () => {
             ))}
           </tbody>
         </table>
-        <Pagination
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-          total={productsQuery?.data.last_page}
-        />
+        {productsQuery?.data && (
+          <Pagination
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            total={productsQuery?.data.last_page}
+          />
+        )}
       </div>
     </AdminLayout>
   );
