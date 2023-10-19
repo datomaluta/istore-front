@@ -3,7 +3,7 @@ import Header from "../components/header/Header";
 import ProductCard from "../components/sharedComponents/productCard/ProductCard";
 import { categories } from "../data/Categories";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChangeEvent } from "react";
 import { getCategoryAllProducts } from "../../services/categoryService";
 import { Product } from "../types/product";
