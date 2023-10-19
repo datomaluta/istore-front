@@ -23,9 +23,9 @@ const SubCategory = () => {
     setPrice(+e.target.value);
   };
 
-  useEffect(() => {
-    if (page) setCurrentPage(page);
-  }, [page]);
+  // useEffect(() => {
+  //   if (page) setCurrentPage(page);
+  // }, [page]);
 
   const { data: subCategoryQuery, isLoading } = useQuery({
     queryKey: ["subCategory", subCategory, currentPage],
@@ -78,7 +78,7 @@ const SubCategory = () => {
           </div>
         </div>
 
-        <div className="w-full flex flex-col justify-between">
+        <div className="w-full flex flex-col min-h-screen justify-between">
           <div
             className={`flex-grow grid gap-x-4 gap-y-8 grid-cols-3
          justify-items-center relative lg:w-full md:grid-cols-2 sm:grid-cols-1  ${
@@ -93,6 +93,7 @@ const SubCategory = () => {
 
           {subCategoryQuery?.data?.data && (
             <Pagination
+              hrefSegment={`/computers/${subCategory}`}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               total={subCategoryQuery?.data?.last_page}

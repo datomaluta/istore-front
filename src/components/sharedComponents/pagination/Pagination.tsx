@@ -1,15 +1,21 @@
 import { PropsType } from "./types";
 import usePagination from "./usePagination";
 
-const Pagination = ({ total, currentPage, setCurrentPage }: PropsType) => {
+const Pagination = ({
+  total,
+  currentPage,
+  setCurrentPage,
+  hrefSegment,
+}: PropsType) => {
   const { prevPageHandler, items, nextPageHandler } = usePagination(
     currentPage,
     setCurrentPage,
-    total
+    total,
+    hrefSegment
   );
 
   return (
-    <div className="w-full flex justify-center mt-8 flex">
+    <div className="w-full  justify-center mt-8 flex">
       <nav aria-label="Page navigation example" className="mx-auto">
         <ul className="flex items-center -space-x-px h-8 text-sm">
           <li>

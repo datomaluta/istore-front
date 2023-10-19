@@ -1,26 +1,27 @@
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 
 const usePagination = (
   currentPage: string | number,
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
-  total: number
+  total: number,
+  hrefSegment: string
 ) => {
   const navigate = useNavigate();
 
   const pageChangeHandler = (number: number) => {
     setCurrentPage(number);
-    // navigate(`/computers/page/${number}`);
+    navigate(`${hrefSegment}/page/${number}`);
   };
 
   const nextPageHandler = () => {
     setCurrentPage((prevState: number) => +prevState + 1);
-    // navigate(`/computers/page/${+currentPage + 1}`);
+    navigate(`${hrefSegment}/page/${+currentPage + 1}`);
   };
 
   const prevPageHandler = () => {
     setCurrentPage((prevState: number) => +prevState - 1);
-    // navigate(`/computers/page/${+currentPage - 1}`);
+    navigate(`${hrefSegment}/page/${+currentPage - 1}`);
   };
 
   const items = [];

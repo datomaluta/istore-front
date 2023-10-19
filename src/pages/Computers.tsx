@@ -56,7 +56,7 @@ const Computers = () => {
               ))}
           </ul>
         </div>
-        <div className=" w-full min-h-scree flex flex-col justify-between">
+        <div className=" w-full min-h-screen flex flex-col justify-between">
           <div
             className={`bg-blue-5 grid gap-x-4 gap-y-8 grid-cols-3 
             justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 relative ${
@@ -71,6 +71,7 @@ const Computers = () => {
           </div>
           {computersQuery?.data?.data && (
             <Pagination
+              hrefSegment={"/computers"}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               total={computersQuery?.data.last_page}

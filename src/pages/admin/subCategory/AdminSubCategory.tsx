@@ -23,6 +23,14 @@ const AdminSubCategory = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    if (page) {
+      if (+page === +1) {
+        setCurrentPage(1);
+      }
+    }
+  }, [page]);
+
   const { data: productsQuery, isLoading } = useQuery({
     queryKey: [category, subCategory, currentPage],
     queryFn: () => getCategoryAllProducts(subCategory || "pc", currentPage),
@@ -128,6 +136,7 @@ const AdminSubCategory = () => {
         </table>
         {productsQuery?.data && (
           <Pagination
+            hrefSegment={`/admin/computers/${subCategory}`}
             setCurrentPage={setCurrentPage}
             currentPage={currentPage}
             total={productsQuery?.data.last_page}
