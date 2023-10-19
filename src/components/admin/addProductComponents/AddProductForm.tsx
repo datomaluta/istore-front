@@ -27,7 +27,6 @@ import {
 } from "./types";
 import {
   addProduct,
-  deleteProduct,
   editProduct,
   getProductById,
 } from "../../../../services/product";
@@ -38,9 +37,7 @@ import Alert from "../../sharedComponents/alert/Alert";
 import { isObjectEmpty } from "../../../helpers/isObjectEmpty";
 import * as yup from "yup";
 import Loader from "../../sharedComponents/Loader";
-import LoadingSpinner from "../../sharedComponents/loadingSpinner/LoadingSpinner";
 import LoaderDots from "../../sharedComponents/LoaderDots";
-import { AnimatePresence } from "framer-motion";
 
 const AddProductForm = ({ edit }: PropsType) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -51,6 +48,7 @@ const AddProductForm = ({ edit }: PropsType) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { id } = useParams();
+  // const queryClient = useQueryClient();
 
   const getValidationSchema = (selectedCategory: string) => {
     switch (selectedCategory) {
@@ -91,6 +89,11 @@ const AddProductForm = ({ edit }: PropsType) => {
     queryFn: () => getAllCategories(),
   });
 
+  const category: { label: string; value: number } = useWatch({
+    control: control,
+    name: "category_id",
+  }) as { label: string; value: number };
+
   const optionsForCategories = categoriesData?.data.map((item: ProductType) => {
     return { value: item.id, label: item.name };
   });
@@ -101,10 +104,10 @@ const AddProductForm = ({ edit }: PropsType) => {
       setSuccessMessage("პროდუქტი წარმატებით დაემატა");
       setTimeout(() => {
         setSuccessMessage("");
-        // navigate(`/admin/computers/pc/page/1`);
+        navigate(`/admin/computers/${category.label}/page/1`);
       }, 1500);
 
-      // queryClient.invalidateQueries(["userInfo"]);
+      // queryClient.invalidateQueries(["computers", category.label]);
     },
     onError: (error: customAxiosError) => {
       console.log(error);
@@ -134,14 +137,11 @@ const AddProductForm = ({ edit }: PropsType) => {
 
   const submitHandler = (data: any) => {
     if (edit) {
-      console.log("edit mode");
-
       const requestData = {
         ...data,
         image: data.image ? data.image[0] : "",
         category_id: data.category_id.value,
       };
-      console.log(requestData);
       formData.append("_method", "PUT");
       generalArray.forEach((item) => {
         if (item.name === "image") {
@@ -174,11 +174,6 @@ const AddProductForm = ({ edit }: PropsType) => {
     }
   };
 
-  const category: { label: string; value: number } = useWatch({
-    control: control,
-    name: "category_id",
-  }) as { label: string; value: number };
-
   useEffect(() => {
     switch (category?.label) {
       case "pc":
@@ -201,13 +196,6 @@ const AddProductForm = ({ edit }: PropsType) => {
       queryKey: ["productData"],
       queryFn: () => getProductById(id),
       enabled: edit,
-      onSuccess: (data) => {
-        // dispatch(saveAuthorizedUser(data.data));
-        // console.log(data);
-      },
-      onError: () => {
-        // dispatch(saveAuthorizedUser(false));
-      },
     }
   );
 
@@ -243,9 +231,6 @@ const AddProductForm = ({ edit }: PropsType) => {
     category?.label,
     extraFieldsBasedOnCategory,
   ]);
-
-  // console.log(productData?.data);
-  // console.log(categoryData?.data);
 
   return (
     <>

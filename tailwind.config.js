@@ -22,6 +22,8 @@ export default {
       backgroundImage: {
         interStellar:
           "linear-gradient(to right bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url('/images/techbg.jpg')",
+        profileGradient:
+          "linear-gradient(to right bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url('/images/cover.png')",
       },
       fontFamily: {
         bpg: "bpg",

@@ -36,3 +36,21 @@ export const loginFormValidationSchema = Yup.object({
       message: "only_letters_and_numbers",
     }),
 });
+
+export const userUpdateFormValidationSchema = Yup.object({
+  name: Yup.string()
+    .required("field_required")
+    .min(3, "field_min_length")
+    .max(15, "field_max_length")
+    .matches(/^[a-zA-Z]+$/, {
+      message: "only_letters",
+    }),
+
+  password: Yup.string()
+    .required("field_required")
+    .min(4, "field_min_length")
+    .max(15, "field_max_length")
+    .matches(/^[a-z0-9]+$/, {
+      message: "only_letters_and_numbers",
+    }),
+});

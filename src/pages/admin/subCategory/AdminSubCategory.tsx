@@ -32,14 +32,8 @@ const AdminSubCategory = () => {
   }, [page]);
 
   const { data: productsQuery, isLoading } = useQuery({
-    queryKey: [category, subCategory, currentPage],
+    queryKey: ["computers", subCategory, currentPage],
     queryFn: () => getCategoryAllProducts(subCategory || "pc", currentPage),
-    // onSuccess: (data) => {
-    //   dispatch(saveAuthorizedUser(data.data));
-    // },
-    // onError: () => {
-    //   dispatch(saveAuthorizedUser(false));
-    // },
   });
 
   useEffect(() => {
@@ -66,13 +60,15 @@ const AdminSubCategory = () => {
     },
   });
 
+  console.log(subCategory);
+
   return (
     <AdminLayout>
       <Alert message={successMessage} />
       <div className="flex justify-between items-center mb-4">
         <h1 className="">{subCategory}</h1>
         <Link
-          to="/admin/product/add"
+          to={`/admin/product/add/${subCategory}`}
           className="bg-emerald-600 px-4 py-2 rounded-lg font-bpg flex gap-1 items-center text-white"
         >
           <BagPlusIcon />

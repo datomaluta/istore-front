@@ -12,6 +12,7 @@ import CheckAuthAndAdmin from "./components/auth/checkAuthAndAdmin/CheckAuthAndA
 import AdminSubCategory from "./pages/admin/subCategory/AdminSubCategory";
 import AddProduct from "./pages/admin/addProduct/AddProduct";
 import ProductDetails from "./pages/ProductDetails";
+import Profile from "./pages/Profile";
 
 function App() {
   const { i18n } = useTranslation();
@@ -58,12 +59,15 @@ function App() {
             </CheckAuthAndAdmin>
           }
         />
-        <Route path="/admin/profile" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
         <Route
           path="/admin/:category/:subCategory/page/:page"
           element={<AdminSubCategory />}
         />
-        <Route path="/admin/product/add" element={<AddProduct />} />
+        <Route
+          path="/admin/product/add/:subCategory"
+          element={<AddProduct />}
+        />
         <Route path="/admin/product/:id/edit" element={<AddProduct />} />
       </Routes>
     </div>
