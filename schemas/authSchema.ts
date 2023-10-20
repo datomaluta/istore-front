@@ -39,7 +39,7 @@ export const loginFormValidationSchema = Yup.object({
 
 export const userUpdateFormValidationSchema = Yup.object({
   name: Yup.string()
-    .required("field_required")
+    .nullable()
     .min(3, "field_min_length")
     .max(15, "field_max_length")
     .matches(/^[a-zA-Z]+$/, {
@@ -47,7 +47,7 @@ export const userUpdateFormValidationSchema = Yup.object({
     }),
 
   password: Yup.string()
-    .required("field_required")
+    .nullable()
     .min(4, "field_min_length")
     .max(15, "field_max_length")
     .matches(/^[a-z0-9]+$/, {

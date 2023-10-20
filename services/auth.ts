@@ -23,3 +23,7 @@ export const logoutUser = async () => {
 export const checkAdmin = async () => {
   return instance.get("/api/test");
 };
+
+export const updateUser = async (data) => {
+  return instance.post("/api/user-update", data);
+};
