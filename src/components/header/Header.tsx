@@ -3,7 +3,7 @@ import SearchIcon from "../icons/SearchIcon";
 import Theme from "../sharedComponents/Theme";
 import geoFlag from "../../assets/images/geo.png";
 import usaFlag from "../../assets/images/usa.png";
-import { Link, json } from "react-router-dom";
+import { Link } from "react-router-dom";
 import BurgerIcon from "../icons/BurgerIcon";
 import MobileHeaderContent from "./MobileHaderContent";
 import { categories } from "../../data/Categories";
@@ -15,7 +15,7 @@ import SignUp from "../auth/signUp/SignUp";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import UserIcon from "../icons/UserIcon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProfileIcon from "../icons/ProfileIcon";
 import LogoutIcon from "../icons/LogoutIcon";
 import { logoutUser } from "../../../services/auth";
@@ -50,9 +50,7 @@ const Header = () => {
   );
   const queryClient = useQueryClient();
 
-  const { totalQuantity, products } = useSelector(
-    (state: RootState) => state.cart
-  );
+  const { totalQuantity } = useSelector((state: RootState) => state.cart);
 
   const { refetch } = useQuery({
     queryKey: ["logoutUser"],

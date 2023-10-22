@@ -7,7 +7,7 @@ import { useState } from "react";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 import { truncateText } from "../../../helpers/TextTrimmer";
 import BasketIcon from "../../icons/BasketIcon";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addProductToCart } from "../../../store/cartSlice/CartSlice";
 
 const ProductCard = ({ product }: ProductCardPropsType) => {
@@ -21,10 +21,6 @@ const ProductCard = ({ product }: ProductCardPropsType) => {
   });
 
   const dispatch = useDispatch();
-
-  // console.log(product);
-
-  const { products, totalQuantity } = useSelector((state) => state.cart);
 
   return (
     <motion.div
