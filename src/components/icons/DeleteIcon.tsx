@@ -1,8 +1,9 @@
-const DeleteIcon = () => {
+const DeleteIcon = ({ className }: { className?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="ionicon h-5 stroke-red-500"
+      height="22px"
+      className={`ionicon  stroke-red-500 ${className}`}
       viewBox="0 0 512 512"
     >
       <path

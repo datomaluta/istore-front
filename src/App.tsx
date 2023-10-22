@@ -13,6 +13,7 @@ import AdminSubCategory from "./pages/admin/subCategory/AdminSubCategory";
 import AddProduct from "./pages/admin/addProduct/AddProduct";
 import ProductDetails from "./pages/ProductDetails";
 import Profile from "./pages/Profile";
+import Cart from "./pages/Cart";
 
 function App() {
   const { i18n } = useTranslation();
@@ -69,6 +70,7 @@ function App() {
           element={<AddProduct />}
         />
         <Route path="/admin/product/:id/edit" element={<AddProduct />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
   );

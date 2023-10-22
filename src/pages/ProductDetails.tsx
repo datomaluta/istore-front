@@ -6,6 +6,10 @@ import Loader from "../components/sharedComponents/Loader";
 import { motion } from "framer-motion";
 import NotFoundComponent from "../components/sharedComponents/notFoundComponent/NotFoundComponent";
 import useProductDetails from "../hooks/productDetailsHooks/useProductdetails";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { addProductToCart } from "../store/cartSlice/CartSlice";
 
 const ProductDetails = () => {
   const {
@@ -16,6 +20,11 @@ const ProductDetails = () => {
     extraFieldsBasedOnCategory,
     category,
   } = useProductDetails();
+
+  const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+  const products = useSelector((state: RootState) => state.cart.products);
+  console.log(products);
 
   let count = 0;
 
@@ -54,20 +63,41 @@ const ProductDetails = () => {
                   {t("stock")}: {productDetailsResponse?.data?.stock}
                 </p>
                 <div className="flex gap-2 items-center">
-                  <button className="text-white bg-primary text-3xl w-10 rounded flex justify-center items-center h-10">
+                  <button
+                    disabled={quantity === 1}
+                    onClick={() => setQuantity((currState) => currState - 1)}
+                    className="text-white bg-primary text-3xl w-10 rounded flex justify-center items-center h-10
+                     disabled:bg-gray-400 disabled:cursor-not-allowed active:translate-y-1 active:bg-blue-700
+                     active:shadow-lg transition-all"
+                  >
                     -
                   </button>
-                  <input
-                    className="bg-transparent border-2 border-primary rounded w-10 h-10 text-center"
-                    type="text"
+                  <div
+                    className="bg-transparent border-2 border-primary rounded w-10 h-10 text-center flex items-center justify-center"
                     defaultValue="1"
-                  />
-                  <button className="text-white bg-primary text-2xl w-10 rounded flex justify-center items-center h-10">
+                  >
+                    {quantity}
+                  </div>
+                  <button
+                    onClick={() => setQuantity((currState) => currState + 1)}
+                    className="text-white bg-primary text-2xl w-10 rounded flex justify-center items-center h-10 active:translate-y-1 active:bg-blue-700
+                    active:shadow-lg transition-all"
+                  >
                     +
                   </button>
                 </div>
               </div>
-              <button className="text-white bg-primary w-full py-3 rounded mt-10 flex items-center gap-2 justify-center ">
+              <button
+                onClick={() =>
+                  dispatch(
+                    addProductToCart({
+                      quantity,
+                      product: productDetailsResponse?.data,
+                    })
+                  )
+                }
+                className="text-white bg-primary w-full py-3 rounded mt-10 flex items-center gap-2 justify-center "
+              >
                 <BasketIcon />
                 {t("add_to_cart")}
               </button>

@@ -1,4 +1,4 @@
-const BasketIcon = () => {
+const BasketIcon = ({ className }: { className?: string }) => {
   return (
     <svg
       fill="#fff"
@@ -10,6 +10,7 @@ const BasketIcon = () => {
       //   xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 489.635 489.635"
       //   xml:space="preserve"
+      className={className}
     >
       <g>
         <path

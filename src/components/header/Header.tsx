@@ -3,7 +3,7 @@ import SearchIcon from "../icons/SearchIcon";
 import Theme from "../sharedComponents/Theme";
 import geoFlag from "../../assets/images/geo.png";
 import usaFlag from "../../assets/images/usa.png";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import BurgerIcon from "../icons/BurgerIcon";
 import MobileHeaderContent from "./MobileHaderContent";
 import { categories } from "../../data/Categories";
@@ -15,7 +15,7 @@ import SignUp from "../auth/signUp/SignUp";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import UserIcon from "../icons/UserIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileIcon from "../icons/ProfileIcon";
 import LogoutIcon from "../icons/LogoutIcon";
 import { logoutUser } from "../../../services/auth";
@@ -49,6 +49,10 @@ const Header = () => {
     (state: RootState) => state.user.authorizedUser
   );
   const queryClient = useQueryClient();
+
+  const { totalQuantity, products } = useSelector(
+    (state: RootState) => state.cart
+  );
 
   const { refetch } = useQuery({
     queryKey: ["logoutUser"],
@@ -216,15 +220,15 @@ const Header = () => {
             <BurgerIcon />
           </button>
           <div className="flex items-center">
-            <button className="mr-6 sm:mr-4 relative">
+            <Link to={"/cart"} className="mr-6 sm:mr-4 relative">
               <span
                 className="w-5 h-5 bg-white  absolute -top-2 -right-2  rounded-full
              text-gray-800 text-[0.7rem] flex items-center justify-center"
               >
-                12
+                {totalQuantity}
               </span>
               <BasketIcon />
-            </button>
+            </Link>
             {authorizedUser ? (
               <button
                 onClick={() =>

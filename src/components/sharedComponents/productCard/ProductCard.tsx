@@ -6,6 +6,9 @@ import { getCategoryById } from "../../../../services/categoryService";
 import { useState } from "react";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 import { truncateText } from "../../../helpers/TextTrimmer";
+import BasketIcon from "../../icons/BasketIcon";
+import { useDispatch, useSelector } from "react-redux";
+import { addProductToCart } from "../../../store/cartSlice/CartSlice";
 
 const ProductCard = ({ product }: ProductCardPropsType) => {
   const [productCategory, setProductCategory] = useState<categoryType>();
@@ -16,6 +19,12 @@ const ProductCard = ({ product }: ProductCardPropsType) => {
       setProductCategory(data?.data);
     },
   });
+
+  const dispatch = useDispatch();
+
+  // console.log(product);
+
+  const { products, totalQuantity } = useSelector((state) => state.cart);
 
   return (
     <motion.div
@@ -29,11 +38,11 @@ const ProductCard = ({ product }: ProductCardPropsType) => {
           <LoadingSpinner />
         </div>
       ) : (
-        <Link
-          className="px-2 pt-2 pb-4 block h-full"
-          to={`/product/${productCategory?.name}/${product?.id}`}
-        >
-          <div className="w-full h-[70%]  overflow-hidden rounded border border-greyForBorder dark:border-none">
+        <div className="px-2 pt-2 pb-4 block h-full ">
+          <Link
+            to={`/product/${productCategory?.name}/${product?.id}`}
+            className="w-full block h-[70%] bg-blue-500 overflow-hidden rounded border border-greyForBorder dark:border-none"
+          >
             <motion.img
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -43,16 +52,27 @@ const ProductCard = ({ product }: ProductCardPropsType) => {
               alt=""
               className="rounded w-full h-full object-cover"
             />
-          </div>
+          </Link>
           <div className="flex flex-col gap-4">
             <p className="h-12 mt-4 font-sans">
               {truncateText(product?.label, 50)}
             </p>
-            <p className="font-bold text-lg text-right font-sans">
-              {product?.price}$
-            </p>
+            <div className="flex justify-between items-center">
+              <p className="font-bold text-lg text-right font-sans">
+                {product?.price}$
+              </p>
+              <button
+                onClick={() => {
+                  dispatch(addProductToCart({ quantity: 1, product: product }));
+                }}
+                className="bg-primary h-8 w-8 rounded flex justify-center items-center"
+                type="button"
+              >
+                <BasketIcon className="h-5" />
+              </button>
+            </div>
           </div>
-        </Link>
+        </div>
       )}
     </motion.div>
   );

@@ -10,6 +10,7 @@ import Loader from "../components/sharedComponents/Loader";
 import { useEffect, useState } from "react";
 import Pagination from "../components/sharedComponents/pagination/Pagination";
 import Layout from "../components/sharedComponents/layout/Layout";
+import { useSelector } from "react-redux";
 
 const Computers = () => {
   const { pathname } = useLocation();
@@ -26,7 +27,8 @@ const Computers = () => {
     queryFn: () => getCategoryAllProducts("computers", currentPage),
   });
 
-  console.log(currentPage);
+  const { products } = useSelector((state) => state.cart);
+  console.log(products);
 
   return (
     <Layout>
