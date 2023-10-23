@@ -4,7 +4,7 @@ export const getCategoryAllProducts = async (
   category: string,
   page: number | string
 ) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
   return await instance.get(`/api/${category}/allproducts?page=${page}`);
 };
 

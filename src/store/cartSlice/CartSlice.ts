@@ -13,11 +13,17 @@ interface Product {
 interface initialStateType {
   products: Product[];
   totalQuantity: number;
+  totalAmount: number;
 }
 
+const cartStateFromLocalStorage: any = JSON.parse(
+  localStorage.getItem("cartState") || "null"
+);
+
 const initialState: initialStateType = {
-  products: [],
-  totalQuantity: 0,
+  products: cartStateFromLocalStorage?.products || [],
+  totalQuantity: cartStateFromLocalStorage?.totalQuantity || 0,
+  totalAmount: cartStateFromLocalStorage?.totalAmount || 0,
 };
 
 export const cartSlice = createSlice({
@@ -40,14 +46,8 @@ export const cartSlice = createSlice({
       }
 
       state.totalQuantity += action.payload.quantity;
-
-      // localStorage.setItem(
-      //   "cartState",
-      //   JSON.stringify({
-      //     products: [...state.products, { product: action.payload.product }],
-      //     quantity: action.payload.quantity,
-      //   })
-      // );
+      state.totalAmount +=
+        +action.payload.product.price * +action.payload.quantity;
     },
     removeProductFromCart: (state, action) => {
       const product = state.products.find(
@@ -63,13 +63,19 @@ export const cartSlice = createSlice({
       }
 
       state.totalQuantity -= 1;
+      state.totalAmount -= +action.payload.price;
     },
     removeEntireProductFromCart: (state, action) => {
+      const product = state.products.find(
+        (item) => item.product.id === action.payload.id
+      );
       state.products = state.products.filter(
         (item) => item.product.id !== action.payload.id
       );
 
-      state.totalQuantity -= 1;
+      if (product) state.totalQuantity -= +product?.quantity;
+      if (product)
+        state.totalAmount -= +action.payload.price * +product?.quantity;
     },
   },
 });

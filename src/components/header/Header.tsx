@@ -50,8 +50,6 @@ const Header = () => {
   );
   const queryClient = useQueryClient();
 
-  const { totalQuantity } = useSelector((state: RootState) => state.cart);
-
   const { refetch } = useQuery({
     queryKey: ["logoutUser"],
     queryFn: () => logoutUser(),
@@ -65,6 +63,8 @@ const Header = () => {
     },
     enabled: false,
   });
+
+  const { totalQuantity } = useSelector((state: RootState) => state.cart);
 
   return (
     <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white z-50 px-2">
@@ -249,7 +249,7 @@ const Header = () => {
                 className="flex flex-col gap-3 items-start bg-primary  px-3 py-4
                   rounded absolute -bottom-2 right-0 translate-y-full shadow-lg z-[99999]"
               >
-                <Link className="flex gap-2 hover:text-gray-300 " to="#">
+                <Link className="flex gap-2 hover:text-gray-300 " to="/profile">
                   <ProfileIcon />
                   My profile
                 </Link>
