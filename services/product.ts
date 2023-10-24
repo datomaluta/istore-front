@@ -22,5 +22,6 @@ export const editProduct = async (data) => {
 };
 
 export const deleteProduct = async (id) => {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   return await instance.delete(`/api/product/${id}`);
 };

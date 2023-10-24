@@ -104,7 +104,7 @@ const AddProductForm = ({ edit }: PropsType) => {
       setSuccessMessage("პროდუქტი წარმატებით დაემატა");
       setTimeout(() => {
         setSuccessMessage("");
-        navigate(`/admin/computers/${category.label}/page/1`);
+        // navigate(`/admin/computers/${category.label}/page/1`);
       }, 1500);
 
       // queryClient.invalidateQueries(["computers", category.label]);

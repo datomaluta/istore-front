@@ -14,11 +14,19 @@ import { deleteProduct } from "../../../../services/product";
 import { customAxiosError } from "../../../components/auth/signUp/types";
 import Loader from "../../../components/sharedComponents/Loader";
 import Alert from "../../../components/sharedComponents/alert/Alert";
+import ModalDiv from "../../../components/sharedComponents/animatedComponents/modalDiv/ModalDiv";
+import { AnimatePresence } from "framer-motion";
+import LoaderDots from "../../../components/sharedComponents/LoaderDots";
+import { ProductType } from "./types";
 
 const AdminSubCategory = () => {
   const { category, subCategory, page } = useParams();
   const [currentPage, setCurrentPage] = useState(page || 1);
   const [successMessage, setSuccessMessage] = useState("");
+  const [deleteModalIsVisible, setDeleteModalIsVisible] =
+    useState<boolean>(false);
+
+  const [chosenProduct, setChosenProduct] = useState<ProductType>();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -41,7 +49,6 @@ const AdminSubCategory = () => {
   }, [currentPage, navigate, subCategory, category]);
 
   const editHandler = (id: number) => {
-    console.log(id);
     navigate(`/admin/product/${id}/edit`);
   };
 
@@ -54,16 +61,48 @@ const AdminSubCategory = () => {
       }, 1500);
 
       queryClient.invalidateQueries([category, subCategory, currentPage]);
+      setDeleteModalIsVisible(false);
     },
     onError: (error: customAxiosError) => {
       console.log(error);
     },
   });
 
-  console.log(subCategory);
-
   return (
     <AdminLayout>
+      <>
+        <AnimatePresence>
+          {deleteModalIsVisible && (
+            <ModalDiv setModalIsVisible={setDeleteModalIsVisible}>
+              <div>
+                <h1 className="text-lg text-center font-bold border-b border-gray-600 pb-4">
+                  პროდუქტის წაშლა
+                </h1>
+                <p className="text-center mt-8">
+                  ნამდვილად გსურთ პროდუქტის წაშლა?
+                </p>
+                <div className="mt-10 flex justify-between">
+                  <button
+                    onClick={() => setDeleteModalIsVisible(false)}
+                    className="bg-red-700 px-4 py-2 rounded font-bold text-white"
+                  >
+                    უკან
+                  </button>
+                  <button
+                    onClick={() =>
+                      deleteProductMutation.mutate(chosenProduct?.id)
+                    }
+                    className="bg-green-600 px-4 py-2 rounded font-bold text-white min-w-[72px] flex justify-center items-center"
+                  >
+                    {deleteProductMutation.isLoading ? <LoaderDots /> : "დიახ"}
+                  </button>
+                </div>
+              </div>
+            </ModalDiv>
+          )}
+        </AnimatePresence>
+      </>
+
       <Alert message={successMessage} />
       <div className="flex justify-between items-center mb-4">
         <h1 className="">{subCategory}</h1>
@@ -119,7 +158,10 @@ const AdminSubCategory = () => {
                       <EditIcon />
                     </button>
                     <button
-                      onClick={() => deleteProductMutation.mutate(product.id)}
+                      onClick={() => {
+                        setChosenProduct(product);
+                        setDeleteModalIsVisible(true);
+                      }}
                       className="border p-1 rounded-full border-red-500"
                     >
                       <DeleteIcon />

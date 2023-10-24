@@ -54,7 +54,6 @@ const Header = () => {
     queryKey: ["logoutUser"],
     queryFn: () => logoutUser(),
     onSuccess: () => {
-      console.log("gaeshva");
       setAuthUserActionsVisible(false);
       queryClient.invalidateQueries(["userInfo"]);
     },
