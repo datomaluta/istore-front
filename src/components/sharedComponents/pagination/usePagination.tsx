@@ -5,23 +5,37 @@ const usePagination = (
   currentPage: string | number,
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
   total: number,
-  hrefSegment: string
+  hrefSegment: string,
+  forSearch: string | undefined | null
 ) => {
   const navigate = useNavigate();
 
   const pageChangeHandler = (number: number) => {
     setCurrentPage(number);
-    navigate(`${hrefSegment}/page/${number}`);
+    if (forSearch) {
+      navigate(`${hrefSegment}/page/${number}?query=${forSearch}`);
+    } else {
+      navigate(`${hrefSegment}/page/${number}`);
+    }
   };
 
   const nextPageHandler = () => {
     setCurrentPage((prevState: number) => +prevState + 1);
-    navigate(`${hrefSegment}/page/${+currentPage + 1}`);
+    if (forSearch) {
+      navigate(`${hrefSegment}/page/${+currentPage + 1}?query=${forSearch}`);
+    } else {
+      navigate(`${hrefSegment}/page/${+currentPage + 1}`);
+    }
   };
 
   const prevPageHandler = () => {
     setCurrentPage((prevState: number) => +prevState - 1);
     navigate(`${hrefSegment}/page/${+currentPage - 1}`);
+    if (forSearch) {
+      navigate(`${hrefSegment}/page/${+currentPage - 1}?query=${forSearch}`);
+    } else {
+      navigate(`${hrefSegment}/page/${+currentPage - 1}`);
+    }
   };
 
   const items = [];

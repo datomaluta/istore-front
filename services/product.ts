@@ -25,3 +25,7 @@ export const deleteProduct = async (id) => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
   return await instance.delete(`/api/product/${id}`);
 };
+
+export const searchProducts = async (data) => {
+  return await instance.post(`/api/search?page=${data.page}`, data.data);
+};

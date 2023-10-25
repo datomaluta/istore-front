@@ -3,7 +3,7 @@ import SearchIcon from "../icons/SearchIcon";
 import Theme from "../sharedComponents/Theme";
 import geoFlag from "../../assets/images/geo.png";
 import usaFlag from "../../assets/images/usa.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BurgerIcon from "../icons/BurgerIcon";
 import MobileHeaderContent from "./MobileHaderContent";
 import { categories } from "../../data/Categories";
@@ -21,6 +21,8 @@ import LogoutIcon from "../icons/LogoutIcon";
 import { logoutUser } from "../../../services/auth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import DashboardIcon from "../icons/DashboardIcon";
+import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 
 const Header = () => {
   const {
@@ -44,6 +46,8 @@ const Header = () => {
     setSignUpModalIsVisible,
   } = useHeader();
 
+  const navigate = useNavigate();
+
   const [authUserActionsVisible, setAuthUserActionsVisible] = useState(false);
   const authorizedUser = useSelector(
     (state: RootState) => state.user.authorizedUser
@@ -64,6 +68,14 @@ const Header = () => {
   });
 
   const { totalQuantity } = useSelector((state: RootState) => state.cart);
+
+  const { register, handleSubmit } = useForm();
+
+  // 163969
+
+  const submitHandler = (data: any) => {
+    navigate(`/search/page/1?query=${data.search_query}`);
+  };
 
   return (
     <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white z-50 px-2">
@@ -114,22 +126,34 @@ const Header = () => {
             </button>
           ))}
           <Theme />
-          {inputIsVisible && (
-            <form action="" className="relative">
-              <input
-                className="rounded w-[15rem] sm:w-[12rem] text-sm px-2 py-2 focus:outline-none text-gray-800
-                md:absolute md:top-0 md:right-0 md:-translate-y-1/2 md:animate-smoothLengthGrow font-arial"
-                placeholder={placeholderText}
-                type="text"
-              />
-              <button
-                className="bg-tint w-8 rounded flex items-center justify-center h-8 absolute top-1/2 -translate-y-1/2 right-0.5 md:hidden"
-                // onClick={inputIsVisibleHandler}
-              >
-                <SearchIcon />
-              </button>
-            </form>
-          )}
+          <AnimatePresence>
+            {inputIsVisible && (
+              <form onSubmit={handleSubmit(submitHandler)} className="relative">
+                <motion.input
+                  {...register("search_query")}
+                  className="rounded w-[15rem] sm:w-[12rem] text-sm px-2 py-2 focus:outline-none text-gray-800
+                md:absolute md:top-0 md:right-0 md:-translate-y-1/2  font-arial"
+                  placeholder={placeholderText}
+                  type="text"
+                  initial={{ width: 0 }}
+                  animate={{
+                    // opacity: 1,
+                    transition: { duration: 0.2 },
+                    width: "200px",
+                  }}
+                  exit={{
+                    // opacity: 0,
+                    transition: { duration: 0.2 },
+                    width: 0,
+                  }}
+                />
+
+                <button className="bg-tint w-8 rounded flex items-center justify-center h-8 absolute top-1/2 -translate-y-1/2 right-0.5 md:hidden">
+                  <SearchIcon />
+                </button>
+              </form>
+            )}
+          </AnimatePresence>
           <button
             className="bg-tint h-8 sm:h-7 w-8 sm:w-7 rounded-full  items-center justify-center md:flex hidden"
             onClick={inputIsVisibleHandler}

@@ -57,7 +57,7 @@ const Computers = () => {
         <div className=" w-full min-h-screen flex flex-col justify-between">
           <div
             className={`bg-blue-5 grid gap-x-4 gap-y-8 grid-cols-3 
-            justify-items-center lg:w-full md:grid-cols-2 sm:grid-cols-1 relative ${
+            justify-items-center lg:w-full xl:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 relative ${
               isLoading && "min-h-[30rem]"
             }`}
           >

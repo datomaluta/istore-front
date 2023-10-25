@@ -25,7 +25,7 @@ const ProductCard = ({ product }: ProductCardPropsType) => {
   return (
     <motion.div
       className="w-full rounded overflow-hidden border-greyForBorder dark:border-greyforText border
-     dark:bg-neutral-800  bg-white h-[380px] shadow-md transition-all hover:dark:bg-neutral-700 hover:bg-neutral-100 group"
+     dark:bg-neutral-800  bg-white h-[420px] md:w-[80%] sm:w-full shadow-md transition-all hover:dark:bg-neutral-700 hover:bg-neutral-100 group"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >

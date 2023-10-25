@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 import { RootState } from "./store/store";
 import { useEffect, useState } from "react";
+import Search from "./pages/Search";
 
 function App() {
   const { i18n } = useTranslation();
@@ -90,6 +91,7 @@ function App() {
         />
         <Route path="/admin/product/:id/edit" element={<AddProduct />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/search/page/:page" element={<Search />} />
       </Routes>
     </div>
   );

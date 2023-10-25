@@ -6,12 +6,14 @@ const Pagination = ({
   currentPage,
   setCurrentPage,
   hrefSegment,
+  forSearch,
 }: PropsType) => {
   const { prevPageHandler, items, nextPageHandler } = usePagination(
     currentPage,
     setCurrentPage,
     total,
-    hrefSegment
+    hrefSegment,
+    forSearch
   );
 
   return (

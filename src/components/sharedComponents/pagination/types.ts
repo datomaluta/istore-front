@@ -3,4 +3,5 @@ export type PropsType = {
   currentPage: number | string;
   setCurrentPage: any;
   hrefSegment: string;
+  forSearch?: string | undefined | null;
 };

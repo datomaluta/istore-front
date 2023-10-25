@@ -81,7 +81,7 @@ const SubCategory = () => {
         <div className="w-full flex flex-col min-h-screen justify-between">
           <div
             className={`flex-grow grid gap-x-4 gap-y-8 grid-cols-3
-         justify-items-center relative lg:w-full md:grid-cols-2 sm:grid-cols-1  ${
+         justify-items-center relative lg:w-full xl:grid-cols-2 md:grid-cols-1 sm:grid-cols-1  ${
            isLoading && "min-h-[30rem]"
          }`}
           >

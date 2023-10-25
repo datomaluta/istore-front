@@ -76,17 +76,17 @@ const AdminSubCategory = () => {
             <ModalDiv setModalIsVisible={setDeleteModalIsVisible}>
               <div>
                 <h1 className="text-lg text-center font-bold border-b border-gray-600 pb-4">
-                  პროდუქტის წაშლა
+                  {t("product_delete")}
                 </h1>
                 <p className="text-center mt-8">
-                  ნამდვილად გსურთ პროდუქტის წაშლა?
+                  {t("are_you_sure_product_delete")}
                 </p>
                 <div className="mt-10 flex justify-between">
                   <button
                     onClick={() => setDeleteModalIsVisible(false)}
                     className="bg-red-700 px-4 py-2 rounded font-bold text-white"
                   >
-                    უკან
+                    {t("back_short")}
                   </button>
                   <button
                     onClick={() =>
@@ -94,7 +94,11 @@ const AdminSubCategory = () => {
                     }
                     className="bg-green-600 px-4 py-2 rounded font-bold text-white min-w-[72px] flex justify-center items-center"
                   >
-                    {deleteProductMutation.isLoading ? <LoaderDots /> : "დიახ"}
+                    {deleteProductMutation.isLoading ? (
+                      <LoaderDots />
+                    ) : (
+                      t("yes")
+                    )}
                   </button>
                 </div>
               </div>
