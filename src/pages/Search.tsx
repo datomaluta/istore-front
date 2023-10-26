@@ -12,20 +12,14 @@ import { useLocation } from "react-router-dom";
 const Search = () => {
   const location = useLocation();
   const searchParam = new URLSearchParams(location.search).get("query");
-  // const searchParam = searchParams.get("query");
   const [mutateData, setMutateData] = useState<any>();
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    // This effect will run whenever the query parameter in the URL changes
     console.log("Query parameter changed:", searchParam);
   }, [searchParam]);
 
-  const {
-    mutate: searchMutate,
-    isLoading,
-    // isError,
-  } = useMutation({
+  const { mutate: searchMutate, isLoading } = useMutation({
     mutationFn: searchProducts,
     onSuccess: (data) => {
       setMutateData(data.data);
@@ -40,8 +34,6 @@ const Search = () => {
       searchMutate({ data: { search_query: searchParam }, page: currentPage });
     }
   }, [searchParam, searchMutate, currentPage]);
-
-  console.log(mutateData?.data);
 
   return (
     <Layout>

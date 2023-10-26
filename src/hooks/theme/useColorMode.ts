@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import useLocalStorage from "./useLocalStorage";
-import { color } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { saveTheme } from "../../store/themeSlice/ThemeSlice";
 
 const useColorMode = () => {
-  const [colorMode, setColorMode] = useLocalStorage("color-theme", "light");
+  const [colorMode, setColorMode] = useLocalStorage("color-theme", "dark");
   const dispatch = useDispatch();
 
   useEffect(() => {

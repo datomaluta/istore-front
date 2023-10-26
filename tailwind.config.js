@@ -5,8 +5,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#1e549f",
-        tint: "#2e79ba",
+        // primary: "#1e549f",
+        primary: "#163969",
+        // tint: "#2e79ba",
+        tint: "#1e549f",
         shade: "#5fc9f3",
         darkBlue: "#1C2434",
         darkLightBlue: "#333A48",

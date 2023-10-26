@@ -100,9 +100,12 @@ const Header = () => {
       </AnimatePresence>
 
       <div className="max-w-[75rem] bg-red-40 mx-auto flex items-center justify-between border-b-[0.05rem] pb-2 py-2  ">
-        <h1 className="text-5xl sm:text-4xl font-bold text-white font-sans">
+        <Link
+          to={"/"}
+          className="text-5xl sm:text-4xl font-bold text-white font-sans"
+        >
           istore
-        </h1>
+        </Link>
         <div className="flex gap-2 items-center">
           {lngs.map((lng) => (
             <button
@@ -110,14 +113,14 @@ const Header = () => {
               key={lng}
               onClick={() => i18n.changeLanguage(lng)}
               disabled={i18n.resolvedLanguage === lng}
-              className={`w-8 sm:w-7 h-8 sm:h-7 ${
+              className={`w-[34px] sm:w-[32px]  h-[34px] sm:h-[32px] ${
                 i18n.resolvedLanguage === lng ? "hidden" : "block"
               } overflow-hidden`}
             >
               <img
                 src={lng === "ka" ? usaFlag : geoFlag}
                 alt="locale"
-                className={`w-full h-full object-cover overflow-hidden  ${
+                className={`w-full h-full  object-cover overflow-hidden  ${
                   lng === "ka"
                     ? "animate-smoothFallFromBottom"
                     : "animate-smoothFallFromTop"
@@ -131,31 +134,29 @@ const Header = () => {
               <form onSubmit={handleSubmit(submitHandler)} className="relative">
                 <motion.input
                   {...register("search_query")}
-                  className="rounded w-[15rem] sm:w-[12rem] text-sm px-2 py-2 focus:outline-none text-gray-800
-                md:absolute md:top-0 md:right-0 md:-translate-y-1/2  font-arial"
+                  className="rounded-full w-[15rem] sm:w-[12rem] text-sm px-4 font-sans py-2 focus:outline-none text-gray-800
+                md:absolute md:top-0 md:right-0 md:-translate-y-1/2"
                   placeholder={placeholderText}
                   type="text"
                   initial={{ width: 0 }}
                   animate={{
-                    // opacity: 1,
                     transition: { duration: 0.2 },
                     width: "200px",
                   }}
                   exit={{
-                    // opacity: 0,
                     transition: { duration: 0.2 },
                     width: 0,
                   }}
                 />
 
-                <button className="bg-tint w-8 rounded flex items-center justify-center h-8 absolute top-1/2 -translate-y-1/2 right-0.5 md:hidden">
+                <button className="bg-primary w-8 rounded-full flex items-center justify-center h-8 absolute top-1/2 -translate-y-1/2 right-0.5 md:hidden">
                   <SearchIcon />
                 </button>
               </form>
             )}
           </AnimatePresence>
           <button
-            className="bg-tint h-8 sm:h-7 w-8 sm:w-7 rounded-full  items-center justify-center md:flex hidden"
+            className="bg-primary h-8 sm:h-7 w-8 sm:w-7 rounded-full  items-center justify-center md:flex hidden"
             onClick={inputIsVisibleHandler}
           >
             <SearchIcon />
@@ -198,17 +199,19 @@ const Header = () => {
                 {t(category.name)}
               </Link>
             ))}
-            <Link
-              className="hover:text-neutral-200 border-b border-transparent hover:border-white"
-              to="/"
-            >
-              {t("monitor")}
-            </Link>
+
             <Link
               className="hover:text-neutral-200 border-b border-transparent hover:border-white"
               to="/"
             >
               {t("about_us")}
+            </Link>
+
+            <Link
+              className="hover:text-neutral-200 border-b border-transparent hover:border-white"
+              to="/"
+            >
+              {t("contact")}
             </Link>
 
             {hoveredCategory && (
