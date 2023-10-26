@@ -1,22 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import { useTranslation } from "react-i18next";
-import Computers from "./pages/Computers";
-import SubCategory from "./pages/SubCategory";
-import Dashboard from "./pages/admin/dashboard/Dashboard";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getAuthenticatedUserInfo } from "../services/auth";
 import { saveAuthorizedUser } from "./store/userSlice/UserSlice";
-import CheckAuthAndAdmin from "./components/auth/checkAuthAndAdmin/CheckAuthAndAdmin";
-import AdminSubCategory from "./pages/admin/subCategory/AdminSubCategory";
-import AddProduct from "./pages/admin/addProduct/AddProduct";
-import ProductDetails from "./pages/ProductDetails";
-import Profile from "./pages/Profile";
-import Cart from "./pages/Cart";
+
 import { RootState } from "./store/store";
 import { useEffect, useState } from "react";
-import Search from "./pages/Search";
+import { routes } from "./routes/routes";
 
 function App() {
   const { i18n } = useTranslation();
@@ -40,11 +31,9 @@ function App() {
 
   useEffect(() => {
     if (isInitial) {
-      // On the first render, do nothing related to local storage
       setIsInitial(false);
       return;
     }
-    // For subsequent renders, update local storage when the 'products' array changes
     localStorage.setItem(
       "cartState",
       JSON.stringify({ products, totalAmount, totalQuantity })
@@ -58,40 +47,9 @@ function App() {
       } relative`}
     >
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/computers/:page" element={<Computers />} /> */}
-        <Route path="/computers/page/:page" element={<Computers />} />
-
-        <Route path="/parts" element={<Computers />} />
-        <Route path="/peripherals" element={<Computers />} />
-        <Route
-          path="/computers/:subCategory/page/:page"
-          element={<SubCategory />}
-        />
-
-        <Route path="/product/:category/:id" element={<ProductDetails />} />
-
-        {/* admin */}
-        <Route
-          path="/admin/dashboard"
-          element={
-            <CheckAuthAndAdmin admin={true}>
-              <Dashboard />
-            </CheckAuthAndAdmin>
-          }
-        />
-        <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/admin/:category/:subCategory/page/:page"
-          element={<AdminSubCategory />}
-        />
-        <Route
-          path="/admin/product/add/:subCategory"
-          element={<AddProduct />}
-        />
-        <Route path="/admin/product/:id/edit" element={<AddProduct />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/search/page/:page" element={<Search />} />
+        {routes.map((route, index) => (
+          <Route key={index} path={route.path} element={route.component} />
+        ))}
       </Routes>
     </div>
   );

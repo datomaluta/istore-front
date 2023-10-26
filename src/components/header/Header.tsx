@@ -15,7 +15,7 @@ import SignUp from "../auth/signUp/SignUp";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import UserIcon from "../icons/UserIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileIcon from "../icons/ProfileIcon";
 import LogoutIcon from "../icons/LogoutIcon";
 import { logoutUser } from "../../../services/auth";
@@ -49,6 +49,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [authUserActionsVisible, setAuthUserActionsVisible] = useState(false);
+  const [animateNow, setAnimateNow] = useState(false);
   const authorizedUser = useSelector(
     (state: RootState) => state.user.authorizedUser
   );
@@ -76,6 +77,14 @@ const Header = () => {
   const submitHandler = (data: any) => {
     navigate(`/search/page/1?query=${data.search_query}`);
   };
+
+  useEffect(() => {
+    setAnimateNow(true);
+
+    setTimeout(() => {
+      setAnimateNow(false);
+    }, 200);
+  }, [totalQuantity]);
 
   return (
     <header className="absolute top-0 left-0 right-0 bg-primary w-full  text-white z-50 px-2">
@@ -246,8 +255,10 @@ const Header = () => {
           <div className="flex items-center">
             <Link to={"/cart"} className="mr-6 sm:mr-4 relative">
               <span
-                className="w-5 h-5 bg-white  absolute -top-2 -right-2  rounded-full
-             text-gray-800 text-[0.7rem] flex items-center justify-center"
+                className={`w-5 h-5 bg-white  absolute -top-2 -right-2  rounded-full
+             text-gray-800 text-[0.7rem] flex items-center justify-center transition-all ${
+               animateNow ? "scale-125 bg-tint text-white" : ""
+             }`}
               >
                 {totalQuantity}
               </span>
@@ -270,35 +281,48 @@ const Header = () => {
                 {t("login")}
               </button>
             )}
-            {authUserActionsVisible && authorizedUser && (
-              <div
-                className="flex flex-col gap-3 items-start bg-primary  px-3 py-4
+            <AnimatePresence>
+              {authUserActionsVisible && authorizedUser && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    transition: { duration: 0.4 },
+                    opacity: 1,
+                  }}
+                  exit={{
+                    opacity: 0,
+                  }}
+                  className="flex flex-col gap-3 items-start bg-primary  px-3 py-4
                   rounded absolute -bottom-2 right-0 translate-y-full shadow-lg z-[99999]"
-              >
-                <Link className="flex gap-2 hover:text-gray-300 " to="/profile">
-                  <ProfileIcon />
-                  My profile
-                </Link>
-                {authorizedUser.isAdmin ? (
-                  <Link
-                    className="flex gap-2 hover:text-gray-300"
-                    to="/admin/dashboard"
-                  >
-                    <DashboardIcon />
-                    Admin Panel
-                  </Link>
-                ) : (
-                  ""
-                )}
-                <button
-                  onClick={() => refetch()}
-                  className="flex gap-2 hover:text-gray-300 border-t border-greyforBorder mt-3 pt-4 w-full"
                 >
-                  <LogoutIcon />
-                  Log out
-                </button>
-              </div>
-            )}
+                  <Link
+                    className="flex gap-2 hover:text-gray-300 "
+                    to="/profile"
+                  >
+                    <ProfileIcon />
+                    {t("my_profile")}
+                  </Link>
+                  {authorizedUser.isAdmin ? (
+                    <Link
+                      className="flex gap-2 hover:text-gray-300"
+                      to="/admin/dashboard"
+                    >
+                      <DashboardIcon />
+                      {t("admin_panel")}
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                  <button
+                    onClick={() => refetch()}
+                    className="flex gap-2 hover:text-gray-300 border-t border-greyforBorder mt-3 pt-4 w-full"
+                  >
+                    <LogoutIcon />
+                    {t("logout")}
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
