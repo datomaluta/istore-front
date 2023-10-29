@@ -96,6 +96,7 @@ const useProfileHook = () => {
     }
 
     const requestData = removeEptyValuesFromObject(data);
+    console.log(requestData);
 
     userUpdateMutate(requestData);
   };

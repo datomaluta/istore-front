@@ -1,6 +1,6 @@
 import instance from "./axios";
 
-export const addProduct = async (data) => {
+export const addProduct = async (data: any) => {
   return await instance.post("/api/product", data);
 };
 
@@ -8,7 +8,7 @@ export const addProduct = async (data) => {
 //   return await instance.get(`/api/product/${id}`);
 // };
 
-export const getProductById = async (id) => {
+export const getProductById = async (id: number | string) => {
   // Simulate a 3-second loading delay
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -16,16 +16,19 @@ export const getProductById = async (id) => {
   return await instance.get(`/api/product/${id}`);
 };
 
-export const editProduct = async (data) => {
+export const editProduct = async (data: any) => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
   return await instance.post(`/api/product/${data.id}`, data.data);
 };
 
-export const deleteProduct = async (id) => {
+export const deleteProduct = async (id: number | string) => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
   return await instance.delete(`/api/product/${id}`);
 };
 
-export const searchProducts = async (data) => {
+export const searchProducts = async (data: {
+  data: { search_query: string };
+  page: string | number;
+}) => {
   return await instance.post(`/api/search?page=${data.page}`, data.data);
 };

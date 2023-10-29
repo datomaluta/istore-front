@@ -24,6 +24,9 @@ export const checkAdmin = async () => {
   return instance.get("/api/test");
 };
 
-export const updateUser = async (data) => {
+export const updateUser = async (data: {
+  name?: string;
+  password?: string;
+}) => {
   return instance.post("/api/user-update", data);
 };

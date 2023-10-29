@@ -13,16 +13,6 @@ const MobileHeaderContent = (props: {
     categoryClickHandler: compsCategoryClickHandler,
   } = useCategoryClicked();
 
-  const {
-    categoryIsClicked: hardwareCategoryIsClicked,
-    categoryClickHandler: hadrwareCategoryClickHandler,
-  } = useCategoryClicked();
-
-  const {
-    categoryIsClicked: peripheralsCategoryIsClicked,
-    categoryClickHandler: peripheralsCategoryClickHandler,
-  } = useCategoryClicked();
-
   const { t, i18n } = useTranslation();
 
   return (
@@ -55,7 +45,7 @@ const MobileHeaderContent = (props: {
               i18n.resolvedLanguage === "ka"
                 ? "animate-smoothTextAppearka w-[9rem]"
                 : "animate-smoothTextAppearForThreeCategory"
-            } overflow-hidden text-primary h-0  text-center`}
+            } overflow-hidden text-tint h-0  text-center`}
           >
             <Link className="text-center " to="/">
               • {t("laptops")}
@@ -67,60 +57,7 @@ const MobileHeaderContent = (props: {
           </div>
         )}
       </div>
-      <div>
-        <div className="flex gap-2 w-[9rem] justify-center items-center">
-          <Link to="/">{t("comp_parts")}</Link>
-          <button onClick={hadrwareCategoryClickHandler}>
-            <DownArrowIcon />
-          </button>
-        </div>
-        {hardwareCategoryIsClicked && (
-          <div
-            className={`flex flex-col gap-1 ${
-              i18n.resolvedLanguage === "ka"
-                ? "animate-smoothTextAppearka w-[9rem]"
-                : "animate-smoothTextAppear"
-            } overflow-hidden text-primary h-0  text-center `}
-          >
-            <Link className="text-center " to="/">
-              • {t("cpu")}
-            </Link>
-            <Link to="/">• {t("gpu")}</Link>
-            <Link to="/">• {t("motherboard")}</Link>
-            <Link to="/">• {t("ram")}</Link>
-          </div>
-        )}
-      </div>
-      <div>
-        <div className="flex gap-2 w-[9rem] justify-center items-center">
-          <Link to="/">{t("comp_peripherals")}</Link>
-          <button onClick={peripheralsCategoryClickHandler}>
-            <DownArrowIcon />
-          </button>
-        </div>
-        {peripheralsCategoryIsClicked && (
-          <div
-            className={`flex flex-col gap-1 ${
-              i18n.resolvedLanguage === "ka"
-                ? "animate-smoothTextAppearka w-[9rem]"
-                : "animate-smoothTextAppear"
-            } overflow-hidden text-primary h-0  text-center `}
-          >
-            <Link className="text-center " to="/">
-              • {t("keyboards")}
-            </Link>
-            <Link className="text-center " to="/">
-              • {t("mouse")}
-            </Link>
-            <Link className="text-center " to="/">
-              • {t("headphones")}
-            </Link>
-            <Link className="text-center " to="/">
-              • {t("speakers")}
-            </Link>
-          </div>
-        )}
-      </div>
+
       <Link to="/">{t("monitor")}</Link>
       <Link to="/">{t("about_us")}</Link>
     </motion.div>

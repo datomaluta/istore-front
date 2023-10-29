@@ -72,8 +72,6 @@ const Header = () => {
 
   const { register, handleSubmit } = useForm();
 
-  // 163969
-
   const submitHandler = (data: any) => {
     navigate(`/search/page/1?query=${data.search_query}`);
   };
@@ -186,8 +184,8 @@ const Header = () => {
             }`}
           >
             <Link
-              className={`${
-                location.pathname === "/" ? "border-b border-white" : ""
+              className={`hover:text-neutral-200 border-b border-transparent hover:border-white ${
+                location.pathname === "/" ? "border-white" : ""
               }`}
               to="/"
             >
@@ -210,14 +208,18 @@ const Header = () => {
             ))}
 
             <Link
-              className="hover:text-neutral-200 border-b border-transparent hover:border-white"
-              to="/"
+              className={`hover:text-neutral-200 border-b border-transparent hover:border-white ${
+                location.pathname === "/about" ? "border-white" : ""
+              }`}
+              to="/about"
             >
               {t("about_us")}
             </Link>
 
             <Link
-              className="hover:text-neutral-200 border-b border-transparent hover:border-white"
+              className={`hover:text-neutral-200 border-b border-transparent hover:border-white ${
+                location.pathname === "/contact" ? "border-white" : ""
+              }`}
               to="/"
             >
               {t("contact")}

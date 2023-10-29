@@ -12,6 +12,6 @@ export const getAllCategories = async () => {
   return await instance.get("/api/categories");
 };
 
-export const getCategoryById = async (id) => {
+export const getCategoryById = async (id: number | string) => {
   return await instance.get(`/api/categories/${id}`);
 };
