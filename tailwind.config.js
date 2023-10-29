@@ -26,6 +26,8 @@ export default {
           "linear-gradient(to right bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url('/images/techbg.jpg')",
         profileGradient:
           "linear-gradient(to right bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url('/images/cover.png')",
+        contactGradient:
+          "linear-gradient(to right bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url('/images/contact-bg.jpg')",
       },
       fontFamily: {
         bpg: "bpg",

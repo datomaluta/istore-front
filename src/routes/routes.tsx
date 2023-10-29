@@ -2,6 +2,7 @@ import CheckAuthAndAdmin from "../components/auth/checkAuthAndAdmin/CheckAuthAnd
 import About from "../pages/About";
 import Cart from "../pages/Cart";
 import Computers from "../pages/Computers";
+import Contact from "../pages/Contact";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/ProductDetails";
 import Profile from "../pages/Profile";
@@ -37,4 +38,5 @@ export const routes = [
   { path: "/cart", component: <Cart /> },
   { path: "/search/page/:page", component: <Search /> },
   { path: "/about", component: <About /> },
+  { path: "/contact", component: <Contact /> },
 ];

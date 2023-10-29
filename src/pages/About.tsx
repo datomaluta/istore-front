@@ -13,7 +13,9 @@ const About = () => {
       <Header />
 
       <div className="pt-40 px-4 sm:px-2 pb-12">
-        <h1 className="text-xl font-bold mb-4">About us</h1>
+        <h1 className="text-tint text-center text-4xl font-bold mb-16 sm:mb-10">
+          About us
+        </h1>
         <div className="flex flex-col gap-6 bg-tint p-4 rounded-lg">
           <p className="leading-relaxed">{t("about_first_p")}</p>
           <p className="leading-relaxed">{t("about_second_p")}</p>

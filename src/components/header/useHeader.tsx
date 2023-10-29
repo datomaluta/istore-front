@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useScreenWidth from "../../hooks/useScreenWidth";
 import useFixedHeader from "../../hooks/useFixedHeader";
 import { categories } from "../../data/Categories";
+import { useLocation } from "react-router-dom";
 
 const useHeader = () => {
   const { t, i18n } = useTranslation();
@@ -48,6 +49,11 @@ const useHeader = () => {
     setSignUpModalIsVisible(false);
     setSignInModalIsVisible(true);
   };
+
+  const { pathname } = useLocation();
+  useEffect(() => {
+    setMobileHeaderIsVisible(false);
+  }, [pathname]);
 
   return {
     mobileHeaderIsVisible,

@@ -220,7 +220,7 @@ const Header = () => {
               className={`hover:text-neutral-200 border-b border-transparent hover:border-white ${
                 location.pathname === "/contact" ? "border-white" : ""
               }`}
-              to="/"
+              to="/contact"
             >
               {t("contact")}
             </Link>
