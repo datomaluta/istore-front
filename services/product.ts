@@ -8,7 +8,7 @@ export const addProduct = async (data: any) => {
 //   return await instance.get(`/api/product/${id}`);
 // };
 
-export const getProductById = async (id: number | string) => {
+export const getProductById = async (id: any) => {
   // Simulate a 3-second loading delay
   await new Promise((resolve) => setTimeout(resolve, 2000));
 

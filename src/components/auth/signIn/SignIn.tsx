@@ -4,6 +4,7 @@ import { PropsType } from "./types";
 import PasswordInput from "../../sharedComponents/inputs/passwordInput/PasswordInput";
 import Alert from "../../sharedComponents/alert/Alert";
 import useSignIn from "./useSignIn";
+import LoaderDots from "../../sharedComponents/LoaderDots";
 
 const SignIn = ({
   closeSignInOpenSignUpHandler,
@@ -17,6 +18,7 @@ const SignIn = ({
     handleSubmit,
     errors,
     submitHandler,
+    signInLoading,
   } = useSignIn(setSignInModalIsVisible);
 
   return (
@@ -57,8 +59,8 @@ const SignIn = ({
               {t("password_reset")}
             </button>
           </div>
-          <button className="bg-primary text-white w-full py-3 rounded font-bold mt-6">
-            {t("sign_in")}
+          <button className="bg-primary text-white w-full py-3 rounded font-bold mt-6 button-effect flex justify-center">
+            {signInLoading ? <LoaderDots /> : t("sign_in")}
           </button>
         </form>
       </ModalDiv>

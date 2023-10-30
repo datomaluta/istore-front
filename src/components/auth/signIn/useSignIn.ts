@@ -28,7 +28,7 @@ const useSignIn = (setSignInModalIsVisible: (arg: boolean) => void) => {
     setBackErrorStatusCode(0);
   }, [email]);
 
-  const loginUserMutation = useMutation({
+  const { mutate: loginUserMutation, isLoading: signInLoading } = useMutation({
     mutationFn: loginUser,
     onSuccess: () => {
       setSuccessMessage("მომხმარებელი წარმატებით დალოგინდა");
@@ -47,7 +47,7 @@ const useSignIn = (setSignInModalIsVisible: (arg: boolean) => void) => {
   });
 
   const submitHandler = async (data: FormValues) => {
-    loginUserMutation.mutate(data);
+    loginUserMutation(data);
   };
 
   return {
@@ -58,6 +58,7 @@ const useSignIn = (setSignInModalIsVisible: (arg: boolean) => void) => {
     handleSubmit,
     errors,
     submitHandler,
+    signInLoading,
   };
 };
 export default useSignIn;

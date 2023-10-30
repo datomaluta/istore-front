@@ -89,6 +89,31 @@ const AddProductForm = ({ edit }: PropsType) => {
     queryFn: () => getAllCategories(),
   });
 
+  const [imgPreview, setImgPreview] = useState<any>();
+
+  const selectedFile = useWatch({
+    control,
+    name: "image",
+  }) as FileList;
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setImgPreview("");
+      return;
+    }
+    const file = selectedFile[0];
+    if (file instanceof File) {
+      const objectUrl = URL.createObjectURL(file);
+      setImgPreview(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+    // const objecturl = URL.createObjectURL(selectedFile[0]);
+    // setImgPreview(objecturl);
+
+    // return () => URL.revokeObjectURL(objecturl);
+  }, [selectedFile]);
+
   const category: { label: string; value: number } = useWatch({
     control: control,
     name: "category_id",
@@ -262,6 +287,8 @@ const AddProductForm = ({ edit }: PropsType) => {
                 label={t(item.name)}
                 placeholder={t("")}
                 type={item.type}
+                imagePreviewSrc={imgPreview}
+                imageFromDb={productData?.data?.image}
                 // frontError={t(errors[item.name]?.message || "")}
                 frontError={t(
                   errors[item.name as keyof typeof errors]?.message || ""
@@ -269,6 +296,7 @@ const AddProductForm = ({ edit }: PropsType) => {
               />
             );
           })}
+
           {extraFieldsBasedOnCategory.map((item: extraFieldType) => (
             <CustomInput
               key={item.name}

@@ -6,4 +6,6 @@ export interface CustomInputPropsType {
   backErrorStatusCode?: number;
   frontError?: any;
   register: any;
+  imagePreviewSrc?: any;
+  imageFromDb?: any;
 }

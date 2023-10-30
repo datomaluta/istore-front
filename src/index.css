@@ -3,6 +3,12 @@ body {
   min-height: 100vh;
 }
 
+.button-effect {
+  @apply bg-primary hover:bg-blue-500 active:translate-y-1 active:bg-blue-700
+  active:shadow-lg transition-all  rounded-lg  disabled:bg-tint
+    disabled:text-gray-400;
+}
+
 .loader,
 .loader:before,
 .loader:after {

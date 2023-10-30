@@ -10,6 +10,9 @@ const CustomInput = (props: CustomInputPropsType) => {
     name,
     backErrorStatusCode,
     frontError,
+    type,
+    imagePreviewSrc,
+    imageFromDb,
     ...rest
   } = props;
   return (
@@ -22,6 +25,7 @@ const CustomInput = (props: CustomInputPropsType) => {
         placeholder={placeholder}
         className="w-full bg-transparent border border-greyForBorder dark:border-greyforText px-2 py-2 
       rounded outline-none focus:border-primary focus:dark:border-primary transition-all placeholder:text-gray-600 placeholder:text-sm"
+        type={type}
         {...rest}
       />
       <p className="text-sm text-red-500 mt-1 h-2 ">
@@ -29,6 +33,23 @@ const CustomInput = (props: CustomInputPropsType) => {
         {backErrorStatusCode === 401 && t("invalid_credentials")}
         {frontError}
       </p>
+
+      {type === "file" &&
+        (imagePreviewSrc ? (
+          <img
+            className="h-24 w-24 rounded-lg object-cover"
+            src={imagePreviewSrc}
+            alt="preview"
+          />
+        ) : imageFromDb ? (
+          <img
+            className="h-24 w-24 rounded-lg object-cover"
+            src={`${import.meta.env.VITE_BACNEKD_URL}/storage/${imageFromDb}`}
+            alt="preview"
+          />
+        ) : (
+          ""
+        ))}
     </div>
   );
 };

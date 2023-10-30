@@ -17,7 +17,6 @@ import Alert from "../../../components/sharedComponents/alert/Alert";
 import ModalDiv from "../../../components/sharedComponents/animatedComponents/modalDiv/ModalDiv";
 import { AnimatePresence } from "framer-motion";
 import LoaderDots from "../../../components/sharedComponents/LoaderDots";
-import { ProductType } from "./types";
 
 const AdminSubCategory = () => {
   const { category, subCategory, page } = useParams();
@@ -26,7 +25,7 @@ const AdminSubCategory = () => {
   const [deleteModalIsVisible, setDeleteModalIsVisible] =
     useState<boolean>(false);
 
-  const [chosenProduct, setChosenProduct] = useState<ProductType>();
+  const [chosenProduct, setChosenProduct] = useState<any>();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -108,8 +107,7 @@ const AdminSubCategory = () => {
       </>
 
       <Alert message={successMessage} />
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="">{subCategory}</h1>
+      <div className="flex justify-end items-center mb-4">
         <Link
           to={`/admin/product/add/${subCategory}`}
           className="bg-emerald-600 px-4 py-2 rounded-lg font-bpg flex gap-1 items-center text-white"
